@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
+<script type="text/javascript">
+	collie.ImageManager.add({
+		mage: "C:/Users/Micah/Documents/TagTech/img/mage.png"
+	});
+    var layer = new collie.Layer({
+		width: 320,
+		height: 480
+	});
+	var mage = new collie.DisplayObject({
+		x: "center",
+		width: 100.5,
+		height: 138.1,
+		zIndex: 2,
+		backgroundImage: "mage"
+	}).addTo(layer);
+	collie.Timer.cycle(mage, "15fps", {
+		from: 0,
+		to: 7,
+		loop: 0
+	});
+	collie.Renderer.addLayer(layer);
+	collie.Renderer.load(document.getElementById("container"));
+	collie.Renderer.start("30fps");
+</script>
+</body>
+</html>
