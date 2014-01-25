@@ -30,7 +30,7 @@
 
     <div class="container">
 
-      <form id="signin" class="form-signin" role="form">
+      <form class="form-signin" role="form">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" class="form-control email" placeholder="Email address" required autofocus>
         <input type="password" class="form-control password" placeholder="Password" required>
@@ -54,8 +54,7 @@
 	<script type="text/javascript">
 		// instatiate the FirebaseSimpleLogin and monitor the user's auth state
 		var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
-		
-    var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+		var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
 			if (error) {
 				// an error occurred while attempting login
 				alert(error);
@@ -64,19 +63,19 @@
 				alert('User ID: ' + user.id + ', Provider: ' + user.provider);
 			} else {
     			// user is logged out
-  		}
-  	});
+  			}
+  		});
 
-    $("#signin").submit( function() {
-        //var args = { email: $('input.email').val(), password: $('input.password').val()};
-
-        // attempt to log the user in with your preferred authentication provider
-        auth.login('password', { 
-          email: 'yash.savani@gmail.com', 
-          password: '1234'
-        });
-        
-  	});
+  		$("button").on("click", function() {
+  			// attempt to log the user in with your preferred authentication provider
+			auth.login('password', {
+				email: $("input.email").val(),
+				password: $("input.password").val(),
+				rememberMe: $("input.remember-me").is(':checked')
+			});
+			console.log("here");
+			window.location.href = "fight_page.html";
+  		})
 	</script>
   </body>
 </html>
