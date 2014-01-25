@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
+<script type="text/javascript">
+var layer = new collie.Layer({
+    width: 1300,
+    height: 980
+});
+
+collie.ImageManager.add({
+    "ranger" : "/Users/amy/Downloads/HackathonRanger.png",
+    "mage" : "/Users/amy/Downloads/HackathonMage.png"
+}, function () {
+     collie.ImageManager.getImage("ranger");
+     collie.ImageManager.getImage("mage");
+});
+
+collie.ImageManager.add({
+	"warrior" : "/Users/amy/Downloads/HackathonWarrior.png"
+}, function(){
+	collie.ImageManager.getImage("warrior");
+})
+
+var ranger = new collie.DisplayObject({
+    x: 0,
+    y: 125,
+    width: 382,
+    height: 640,
+    backgroundImage: "ranger"
+}).addTo(layer);
+
+var warrior = new collie.DisplayObject({
+	x: 700,
+	y: 87,
+	width: 600,
+	height: 700,
+	backgroundImage: "warrior"
+}).addTo(layer);
+
+var mage = new collie.DisplayObject({
+	x: 350,
+	y: "center",
+	width: 477,
+	height: 591,
+	backgroundImage: "mage"
+}).addTo(layer);
+
+collie.Renderer.addLayer(layer);
+collie.Renderer.load(document.getElementById("container"));
+collie.Renderer.start();
+</script>
+</body>
+</html>
