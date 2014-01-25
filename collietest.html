@@ -62,7 +62,7 @@ collie.util.addEventListener(window, "load", function () {
                 hand.removeChild(oEvent.displayObject);
                 hand.addChild(oEvent.displayObject);
             }
-        }
+        },
         /*mousemove : function (oEvent) {
             if (oSelectedDisplayObject !== null) {
                 var x = htStartPosition.x - oEvent.x;
@@ -85,7 +85,7 @@ collie.util.addEventListener(window, "load", function () {
 		warrior: "C:/Users/Micah/TagTech/img/warrior.png",
 		warriorAttack: "C:/Users/Micah/TagTech/img/warrior.png",
 		swordCard: "C:/Users/Micah/TagTech/img/swordCard.png",
-		cardGlow: "C:/Users/Micah/TagTech/img/cargGlow.png",
+		cardGlow: "C:/Users/Micah/TagTech/img/cardglow.png",
 		frame: "C:/Users/Micah/TagTech/img/backgroundframe.png"
 	});
 
@@ -134,20 +134,22 @@ collie.util.addEventListener(window, "load", function () {
         scaleX : 0.8,
         scaleY : 0.8, 
         scale: 0.8
-	}).bottom(50).addTo(hand).attach({
-		click : function () {
-			/*if(cargGlow.get("visible") == false) {
-				cardGlow.set("visible", true);
-			} else {
-				cardGlow.set("visible", false)
-			}*/
-		}
-	});
+	}).bottom(50).addTo(hand);
+	
 	var cardGlow = new collie.DisplayObject({
+		x: -10,
+		y: -10,
 		width: 170,
 		height: 220,
 		backgroundImage: "cardGlow"
-		}).addTo(swordCard);
+	}).addTo(swordCard).attach({
+		click : function () {
+			if(cargGlow.get("visible") == false) {
+				cardGlow.set("visible", true);
+			} else {
+				cardGlow.set("visible", false);
+			}
+		}
 	});
 	
 	/*var warrior = new collie.DisplayObject({
@@ -206,7 +208,7 @@ collie.util.addEventListener(window, "load", function () {
 		backgroundImage: "frame"
 	}).addTo(frameLayer);
 	
-	var currentY = swordCard.get("y");
+	/*var currentY = swordCard.get("y");
 	swordCard.attach({
 		click: function (e) {
 			collie.Timer.queue().
@@ -222,7 +224,7 @@ collie.util.addEventListener(window, "load", function () {
 				});
 			
 		}
-	});
+	});*/
 
 	collie.Renderer.addLayer(layer);
 	collie.Renderer.addLayer(hand);
