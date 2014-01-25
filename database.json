@@ -1,0 +1,30 @@
+{
+	"tagtech" : {
+		"players" : {
+			"warrior" : {
+				"hp" : 100,
+				"attack" : ["melee", 5],
+				"defense" : ["shield", -5],
+				"health" : 0
+			},
+			"mage" : {
+				"hp" : 75,
+				"attack" : ["spell", 10],
+				"defense" : ["dodge", -5],
+				"health" : 0
+			},
+			"ranger" : {
+				"hp" : 85,
+				"attack" : ["projectile", 7],
+				"defense" : ["dodge", 0],
+				"health" : 0
+			},
+			"cleric" : {
+
+			}
+		},
+		"weapons" : {
+
+		}
+	}
+}
