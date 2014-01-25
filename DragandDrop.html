@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 </head>
 <body>
@@ -12,19 +12,15 @@
 collie.util.addEventListener(window, "load", function () {
 
     var layer = new collie.Layer({
-        width: 800,
-        height: 450
-    });
-	var hand = new collie.Layer({
-        width: 800,
-        height: 450
+        width: 480,
+        height: 320
     });
 
     var oSelectedDisplayObject = null;
     var htStartPosition = {};
     var htSelectedDisplayObjectPosition = {};
     
-    hand.attach({
+    layer.attach({
         mousedown : function (oEvent) {
             if (oEvent.displayObject) {
                 oEvent.displayObject.set({
@@ -67,86 +63,26 @@ collie.util.addEventListener(window, "load", function () {
         }
     });
 
-	collie.ImageManager.add({
-		handbackground: "C:/Users/Micah/TagTech/img/handbackground.png",
-		actionbox1: "C:/Users/Micah/TagTech/img/actionbox.png",
-		actionbox2: "C:/Users/Micah/TagTech/img/actionbox.png",
-		actionbox3: "C:/Users/Micah/TagTech/img/actionbox.png",
-		actionbox4: "C:/Users/Micah/TagTech/img/actionbox.png",
-		mage: "C:/Users/Micah/TagTech/img/mage.png",
-		swordcard: "C:/Users/Micah/TagTech/img/swordcard.png"
-	});
-
-	var handbackground = new collie.DisplayObject({
-		x: "center",
-		width: 800,
-		height: 450,
-		backgroundImage: "handbackground"
-	}).addTo(layer);
-	var actionbox1 = new collie.DisplayObject({
-		x: 110,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox1"
-	}).bottom(300).addTo(layer);
-	var actionbox2 = new collie.DisplayObject({
-		x: 270,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox2"
-	}).bottom(300).addTo(layer);
-	var actionbox3 = new collie.DisplayObject({
-		x: 430,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox3"
-	}).bottom(300).addTo(layer);
-	var actionbox4 = new collie.DisplayObject({
-		x: 590,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox4"
-	}).bottom(300).addTo(layer);
-	/*var mage = new collie.DisplayObject({
-		x: "center",
-		width: 100.5,
-		height: 138.1,
-		backgroundImage: "mage"
-	}).addTo(layer);*/
-	var swordcard = new collie.DisplayObject({
-		x: "center",
-		width: 150,
-		height: 200,
-		backgroundImage: "swordcard"
-	}).bottom(50).addTo(hand);
-	
-	var currentY = swordcard.get("y");
-	swordcard.attach({
-		click: function (e) {
-			collie.Timer.queue().
-				transition(swordcard, 400, {
-					to: currentY - 100,
-					effect: collie.Effect.easeOut,
-					set: "y"
-				}).
-				transition(swordcard, 400, {
-					to: currentY,
-					effect: collie.Effect.easeIn,
-					set: "y"
-				});
-			
-		}
-	});
-	/*collie.Timer.cycle(mage, "15fps", {
-		from: 0,
-		to: 7,
-		loop: 0
-	});*/
-
-	collie.Renderer.addLayer(layer);
-	collie.Renderer.addLayer(hand);
-	collie.Renderer.load(document.getElementById("container"));
-	collie.Renderer.start("30fps");
+      
+    collie.ImageManager.add ({
+        rabbit: "http://jindo.dev.naver.com/collie/img/small/yame_walk.png"
+    });
+      
+    var rabbit = new collie.DisplayObject({
+        x: "center",
+        y: "center",
+        width: 129.4,
+        height: 165,
+        useEvent : true,
+        backgroundImage: "rabbit", 
+        scaleX : 1.0,
+        scaleY : 1.0, 
+        scale: 1.0
+    }).addTo(layer);
+      
+    collie.Renderer.addLayer(layer);
+    collie.Renderer.load(document.getElementById("container"));
+    collie.Renderer.start();
 });
 </script>
 </body>
