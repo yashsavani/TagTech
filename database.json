@@ -1,30 +1,94 @@
 {
-	"tagtech" : {
+	"tagtech_static" : {
+		"cards_in_deck" : 36,
+		"cards_in_hand" : 7,
+		"action_cards" : 4,
 		"players" : {
 			"warrior" : {
 				"hp" : 100,
 				"attack" : ["melee", 5],
-				"defense" : ["shield", -5],
+				"defense" : ["melee", 5],
 				"health" : 0
 			},
 			"mage" : {
 				"hp" : 75,
 				"attack" : ["spell", 10],
-				"defense" : ["dodge", -5],
+				"defense" : ["dodge", 5],
 				"health" : 0
 			},
 			"ranger" : {
 				"hp" : 85,
 				"attack" : ["projectile", 7],
-				"defense" : ["dodge", 0],
+				"defense" : ["dodge", 5],
 				"health" : 0
 			},
 			"cleric" : {
-
+				"hp" : 120,
+				"attack" : ["spell", 2],
+				"defense" : ["dodge", 0],
+				"health" : 5
 			}
 		},
-		"weapons" : {
+		"cards" : {
+			"strong sword" : {
+				"type" : "melee",
+				"move" : ["attack", 20]
+			},
+			"sword" : {
+				"type" : "melee",
+				"move" : ["attack", 15]
+			},
+			"weak sword" : {
+				"type" : "melee",
+				"move" : ["attack", 10]
+			},
 
+			"strong spell" : {
+				"type" : "spell",
+				"move" : ["attack", 20]
+			},
+			"spell" : {
+				"type" : "spell",
+				"move" : ["attack", 15]
+			},
+			"weak spell" : {
+				"type" : "spell",
+				"move" : ["attack", 10]
+			},
+
+			"strong projectile" : {
+				"type" : "projectile",
+				"move" : ["attack", 20]
+			},
+			"projectile" : {
+				"type" : "projectile",
+				"move" : ["attack", 15]
+			},
+			"weak projectile" : {
+				"type" : "projectile",
+				"move" : ["attack", 10]
+			},
+
+
+			"shield" : {
+				"type" : "melee",
+				"move" : ["defense", 10]
+			},
+			"dodge" : {
+				"type" : "spell",
+				"move" : ["defense", 15]
+			},
+			"health" : {
+				"type" : "health",
+				"move" : ["health", 10]
+			}
 		}
+	},
+	"tagtech_dynamic" : {
+		"player_1" : "",
+		"player_2" : "",
+		"deck" : [],
+		"hand" : {},
+
 	}
 }
