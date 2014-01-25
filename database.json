@@ -86,8 +86,14 @@
 	},
 	"tagtech_dynamic" : {
 		"players" : {
-			"one" : ["", 0],
-			"two" : ["", 0]
+			"one" : {
+				"first" : ["warrior", 100],
+				"second" : ["mage", 75]
+			},
+			"two" : {
+				"first" : ["ranger", 85],
+				"second" : ["cleric", 120]
+			}
 		},
 		"deck" : [],
 		"hand" : [],

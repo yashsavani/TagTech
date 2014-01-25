@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>TagTech</title>
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /> -->
+
+	<style type="text/css">
+		div.container {
+			margin-top: 10em;
+			margin: auto;
+			width: 80%;
+		}
+		div.play_area {
+			margin: 2em;
+			width: 640px;
+			height: 307px;
+			background: #FFF url(img/ku-xlarge.gif) no-repeat 50% 50%;
+		}
+		div.opponent {
+			float: right;
+		}
+		div.own {
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="play_area"></div>
+
+		<div class="card_arena">
+			<div class="opponent"></div>
+			<div class="own"></div>
+		</div>
+	</div>
+	
+
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
+	<script type="text/javascript">
+		// instatiate the FirebaseSimpleLogin and monitor the user's auth state
+		var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+		var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+			if (error) {
+				// an error occurred while attempting login
+				alert(error);
+			} else if (user) {
+				// user authenticated with Firebase
+				alert('User ID: ' + user.id + ', Provider: ' + user.provider);
+			} else {
+    			// user is logged out
+  			}
+  		});
+	</script>
+
+
+
+
+
+
+	<script type="text/javascript">
+		(function( $ ) {
+			$(document).ready( function() {
+				var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+
+				var layer = new collie.Layer({
+					width: 470,
+					height: 500
+				});
+
+				collie.ImageManager.add({
+					card: "img/swordcard.png"
+				});
+
+				var card1 = new collie.DisplayObject({
+					x: 0,
+					y: 0,
+					width: 150,
+					height: 200,
+					backgroundImage: "card"
+				}).addTo(layer);
+
+				var card2 = new collie.DisplayObject({
+					x: 160,
+					y: 0,
+					width: 150,
+					height: 200,
+					backgroundImage: "card"
+				}).addTo(layer);
+
+				var card3 = new collie.DisplayObject({
+					x: 320,
+					y: 0,
+					width: 150,
+					height: 200,
+					backgroundImage: "card"
+				}).addTo(layer);
+
+				var currentY1 = card1.get("y");
+
+				var currentY2 = card2.get("y");
+
+				var currentY3 = card3.get("y");
+				
+				card1.attach({
+					click: function (e) {
+						myRootRef.child("tagtech_dynamic").child("players").child("one").child("first").once( 'value', function(snap){
+							var name_hp = snap.val();
+							myRootRef.child("tagtech_dynamic").child("players").child("one").child("first").update([name_hp[0], name_hp[1]-2])
+						});
+						collie.Timer.queue().
+						transition(card1, 400, {
+							to: currentY1 - 100,
+							effect: collie.Effect.easeOut,
+							set: "y"
+						}).
+						transition(card1, 400, {
+							to: currentY1,
+							effect: collie.Effect.easeIn,
+							set: "y"
+						});
+					}
+				});
+
+				card2.attach({
+					click: function (e) {
+						collie.Timer.queue().
+						transition(card2, 400, {
+							to: currentY2 - 100,
+							effect: collie.Effect.easeOut,
+							set: "y"
+						}).
+						transition(card2, 400, {
+							to: currentY2,
+							effect: collie.Effect.easeIn,
+							set: "y"
+						});
+					}
+				});
+
+				card3.attach({
+					click: function (e) {
+						collie.Timer.queue().
+						transition(card3, 400, {
+							to: currentY3 - 100,
+							effect: collie.Effect.easeOut,
+							set: "y"
+						}).
+						transition(card3, 400, {
+							to: currentY3,
+							effect: collie.Effect.easeIn,
+							set: "y"
+						});
+					}
+				});
+
+				collie.Renderer.addLayer(layer);
+				collie.Renderer.load(document.getElementsByClassName("own")[0]);
+				collie.Renderer.start();
+			});
+		}( jQuery ));
+
+	</script>
+</body>
+</html>
