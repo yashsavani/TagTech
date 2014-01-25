@@ -51,8 +51,8 @@ collie.util.addEventListener(window, "load", function () {
                 oSelectedDisplayObject = null;
                 htSelectedDisplayObjectPosition = htStartPosition = {};
                 
-                oLayer.removeChild(oEvent.displayObject);
-                oLayer.addChild(oEvent.displayObject);
+                hand.removeChild(oEvent.displayObject);
+                hand.addChild(oEvent.displayObject);
             }
         },
         mousemove : function (oEvent) {
@@ -74,7 +74,9 @@ collie.util.addEventListener(window, "load", function () {
 		actionbox3: "C:/Users/Micah/TagTech/img/actionbox.png",
 		actionbox4: "C:/Users/Micah/TagTech/img/actionbox.png",
 		mage: "C:/Users/Micah/TagTech/img/mage.png",
-		swordcard: "C:/Users/Micah/TagTech/img/swordcard.png"
+		swordcard: "C:/Users/Micah/TagTech/img/swordcard.png",
+		
+		frame: "C:/Users/Micah/TagTech/img/backgroundframe.png"
 	});
 
 	var handbackground = new collie.DisplayObject({
@@ -107,18 +109,30 @@ collie.util.addEventListener(window, "load", function () {
 		height: 100,
 		backgroundImage: "actionbox4"
 	}).bottom(300).addTo(layer);
-	/*var mage = new collie.DisplayObject({
+	var mage = new collie.DisplayObject({
 		x: "center",
+		y: 100,
 		width: 100.5,
 		height: 138.1,
 		backgroundImage: "mage"
-	}).addTo(layer);*/
+	}).addTo(layer);
 	var swordcard = new collie.DisplayObject({
 		x: "center",
 		width: 150,
 		height: 200,
-		backgroundImage: "swordcard"
+		useEvent : true,
+        backgroundImage: "swordcard", 
+        scaleX : 0.8,
+        scaleY : 0.8, 
+        scale: 0.8
 	}).bottom(50).addTo(hand);
+	
+	var frame = new collie.DisplayObject({
+		x: "center",
+		width: 800,
+		height: 450,
+		backgroundImage: "frame"
+		}).addTo(layer);
 	
 	var currentY = swordcard.get("y");
 	swordcard.attach({
@@ -137,11 +151,11 @@ collie.util.addEventListener(window, "load", function () {
 			
 		}
 	});
-	/*collie.Timer.cycle(mage, "15fps", {
+	collie.Timer.cycle(mage, "15fps", {
 		from: 0,
 		to: 7,
 		loop: 0
-	});*/
+	});
 
 	collie.Renderer.addLayer(layer);
 	collie.Renderer.addLayer(hand);
