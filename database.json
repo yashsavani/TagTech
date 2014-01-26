@@ -37,7 +37,7 @@
 				"move" : ["attack", 20]
 			},
 			{
-				"name" : "sword",
+				"name" : "medium sword",
 				"type" : "melee",
 				"move" : ["attack", 15]
 			},
@@ -52,7 +52,7 @@
 				"move" : ["attack", 20]
 			},
 			{
-				"name" : "spell",
+				"name" : "medium spell",
 				"type" : "spell",
 				"move" : ["attack", 15]
 			},
@@ -62,17 +62,17 @@
 				"move" : ["attack", 10]
 			},
 			{
-				"name" : "strong projectile",
+				"name" : "strong bow",
 				"type" : "projectile",
 				"move" : ["attack", 20]
 			},
 			{
-				"name" : "projectile",
+				"name" : "medium bow",
 				"type" : "projectile",
 				"move" : ["attack", 15]
 			},
 			{
-				"name" : "weak projectile",
+				"name" : "weak bow",
 				"type" : "projectile",
 				"move" : ["attack", 10]
 			},
