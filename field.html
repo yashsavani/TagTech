@@ -4,18 +4,25 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 </head>
-<body>
+<body class="field">
 <div id="container"></div>
 
+<div class="center" class="jumbotron">
+  <h1>TagTech Fight for victory!</h1>
+</div>
+
+<link href="css/field-style.css" rel="stylesheet">
 <script src="js/imagesource.js"></script>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
 
 <script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
+<div class="center" class="field"><p>
 <script type="text/javascript">
-
 //replace with player data from firebase
 var testplayers = new Array();
 testplayers[1] = "warrior";
@@ -34,29 +41,61 @@ collie.ImageManager.add({
 var windowWidth = 640;
 var windowHeight = 307;
 
+var p1x = -70;
+var p1y = 35;
+var p2x = 120;
+var p2y = 35;
+
 var numPlayers = 2;
 var numCharacters = 4;
 var players = new Array();
 var characters = new Array();
+var currCharacters = new Array();
+currCharacters[0] = true;
+currCharacters[1] = false;
+currCharacters[2] = true;
+currCharacters[3] = false;
 
 for(var i=0; i<numCharacters; i++) { //load unique characters into field
 	characters[i] = testplayers[i]; //replace testplayers with actual array
 }
-for(var h=1; h<=numPlayers; h++) {
-	players[i] = new collie.Layer({
-		width: windowWidth,
-		height: windowHeight
-	});
-	for(var m=0; m<numCharacters/numPlayers; m++) {
-		var newCharacter = new collie.DisplayObject({
-		x: 0,
-		y: 0,
-		width: windowWidth,
-		height: windowHeight,
-		backgroundImage: characters[m],
-		}).addTo(players[m/2]);
+var characterImages = new collie.Layer({
+	width: windowWidth,
+	height: windowHeight
+});
+
+function updateCurrCharacters() {
+	for(var i=0; i<numCharacters; i++) {
+		if(currCharacters[i] == true) {
+			characters[i].set("visible", true);
+		} else {
+			characters[i].set("visible", false);
+		}
 	}
+	characters[0].set("x", 50);
 }
+
+for(var m=0; m<numCharacters; m++) {
+	characters[m] = new collie.DisplayObject({
+	x: "center",
+	y: "center",
+	width: windowWidth,
+	height: 500,
+	scaleX: 0.3,
+	scaleY: 0.3,
+	backgroundImage: characters[m],
+	}).addTo(characterImages);
+}
+
+//static positions set
+characters[0].set("x", p1x);
+characters[0].set("y", p1y);
+characters[1].set("x", p1x);
+characters[1].set("y", p1y);
+characters[2].set("x", p2x);
+characters[2].set("y", p2y);
+characters[3].set("x", p2x);
+characters[3].set("y", p2y);
 
 var backgroundLayer = new collie.Layer({
 	width: windowWidth,
@@ -64,7 +103,7 @@ var backgroundLayer = new collie.Layer({
 });
 
 var field = new collie.DisplayObject({
-	x: 0,
+	x: "center",
 	y: 0,
 	width: windowWidth,
 	height: windowHeight,
@@ -72,10 +111,22 @@ var field = new collie.DisplayObject({
 }).addTo(backgroundLayer);
 
 collie.Renderer.addLayer(backgroundLayer);
-for(var j=1; j<=numPlayers; j++) collie.Renderer.addLayer(players[j]);
+for(var j=0; j<=numCharacters; j++) collie.Renderer.addLayer(characterImages);
 collie.Renderer.addLayer(backgroundLayer);
 collie.Renderer.load(document.getElementById("container"));
 collie.Renderer.start("30fps");
-</script>
+</script></p>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+    <div class="left"><span class="sr-only">60% Complete</span></div>
+  </div>
+  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+    <div class="right"><span class="sr-only">60% Complete</span></div>
+  </div>
+</div>
+<div class="center">
+<p><button type="button" class="btn btn-primary btn-lg btn-block">Surrender?</button></p>
+</div>
+</div>
 </body>
 </html>
