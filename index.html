@@ -61,22 +61,26 @@
 				alert(error);
 			} else if (user) {
 				// user authenticated with Firebase
-				alert('User ID: ' + user.id + ', Provider: ' + user.provider);
+        $("body").fadeOut(1000, redirectPage);
 			} else {
     			// user is logged out
   		}
   	});
 
-    $("#signin").submit( function() {
-        //var args = { email: $('input.email').val(), password: $('input.password').val()};
-
+    $("#signin").submit( function( e ) {
+      
         // attempt to log the user in with your preferred authentication provider
-        auth.login('password', { 
-          email: 'yash.savani@gmail.com', 
-          password: '1234'
-        });
-        
+        setTimeout(function() {auth.login('password', { 
+          email: $('input.email').val(), 
+          password: $('input.password').val(),
+          rememberMe: $('input.remember-me').is(':checked')
+        })}, 0);
+        e.preventDefault();
   	});
+
+    function redirectPage() {
+        window.location.href = "start_fight.html";
+    }
 	</script>
   </body>
 </html>
