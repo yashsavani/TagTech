@@ -9,19 +9,146 @@
 <script src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
 <script>
 
-var layer = new collie.Layer() {
-	width : 320, 
-	height : 480
-}
+collie.util.addEventListener(window, "load", function () {
 
-collie.ImageManager.add({
-	cardtemp: "/img/cardtemplate.png"
+    
+    var max_width = 800;
+    var max_height = 450;
+     
+    var layer = new collie.Layer({
+        width: max_width,
+        height: max_height
+    });
+
+    var hand = new collie.Layer({
+        width: max_width,
+        height: max_height
+    }); 
+
+    var oSelectedDisplayObject = null;
+    var htStartPosition = {};
+    var htSelectedDisplayObjectPosition = {};
+
+    hand.attach({
+        mousedown : function (oEvent) {
+            if (oEvent.displayObject) {
+                oEvent.displayObject.set({
+                    scaleX : oEvent.displayObject.get("scale") * 1.2,
+                    scaleY : oEvent.displayObject.get("scale") * 1.2
+                });
+                oSelectedDisplayObject = oEvent.displayObject;
+                htStartPosition = {
+                    x : oEvent.x,
+                    y : oEvent.y 
+                };
+                htSelectedDisplayObjectPosition = {
+                    x : oSelectedDisplayObject.get("x"),
+                    y : oSelectedDisplayObject.get("y")
+                };
+            }
+        },
+        mouseup : function (oEvent) {
+            if (oSelectedDisplayObject !== null) {
+                oSelectedDisplayObject.set({
+                    scaleX : oSelectedDisplayObject.get("scale"),
+                    scaleY : oSelectedDisplayObject.get("scale")
+                });
+                oSelectedDisplayObject = null;
+                htSelectedDisplayObjectPosition = htStartPosition = {};
+                
+                hand.removeChild(oEvent.displayObject);
+                hand.addChild(oEvent.displayObject);
+            }
+        }
+    });
+    collie.Renderer.RETINA_DISPLAY = "auto";
+    var folder = collie.Renderer.isRetinaDisplay() ? "large" : "small";
+    collie.ImageManager.add({
+        cardtemp: "img/cardtemplate.png",
+        cardbackground: "img/handbackground.png", 
+        ttlogo: "img/ttlogo.png"
+    });
+
+    var pos1 = [(1/5) * max_width - 75, (2/5) * max_height];
+    var pos2 = [(2/5) * max_width - 75, (1/10) * max_height];
+    var pos3 = [(3/5) * max_width - 75, (1/10) * max_height];
+    var pos4 = [(4/5) * max_width - 75, (2/5) * max_height];
+
+    var background = new collie.DisplayObject({
+        width: max_width,
+        height: max_height, 
+        backgroundImage: "cardbackground"
+    }).addTo(layer);
+
+    var logo = new collie.DisplayObject({
+        x: max_width * (1/2) + 20,
+        y: (4/5) * max_height,
+        width: 250,
+        height: 250, 
+        scaleX: 1.5,
+        scaleY: 1.5,
+        scale: 1.5,
+        backgroundImage: "ttlogo"
+    }).addTo(layer);
+
+    var card_1 = new collie.DisplayObject({
+        x: pos1[0],
+        y: pos1[1],
+        width: 150,
+        height: 200,
+        zIndex: 2,
+        useEvent: true,
+        scale : 0.8,
+        scaleX : 0.8,
+        scaleY : 0.8,
+        backgroundImage: "cardtemp"
+    }).addTo(hand);
+
+    var card_2 = new collie.DisplayObject({
+        x: pos2[0],
+        y: pos2[1],
+        width: 150,
+        height: 200,
+        zIndex: 2,
+        useEvent: true,
+        scale : 0.8,
+        scaleX : 0.8,
+        scaleY : 0.8,
+        backgroundImage: "cardtemp"
+    }).addTo(hand);
+
+    var card_3 = new collie.DisplayObject({
+        x: pos3[0],
+        y: pos3[1],
+        width: 150,
+        height: 200,
+        zIndex: 2,
+        useEvent: true,
+        scale : 0.8,
+        scaleX : 0.8,
+        scaleY : 0.8,
+        backgroundImage: "cardtemp"
+    }).addTo(hand);
+
+    var card_4 = new collie.DisplayObject({
+        x: pos4[0],
+        y: pos4[1],
+        width: 150,
+        height: 200,
+        zIndex: 2,
+        useEvent: true,
+        scale : 0.8,
+        scaleX : 0.8,
+        scaleY : 0.8,
+        backgroundImage: "cardtemp"
+    }).addTo(hand);
+
+    collie.Renderer.addLayer(layer);
+    collie.Renderer.addLayer(hand);
+    collie.Renderer.load(document.getElementById("container"));
+    collie.Renderer.start();
 });
 
-var cardtemp = new collie.DisplayObject({
-	x: "center",
-	width: 129.4,
-    height: 165,
-    zIndex: 2,
-    backgroundImage: "cardtemp"
-}).addTo(layer);
+</script>
+</body>
+</html>
