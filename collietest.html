@@ -98,13 +98,6 @@ collie.util.addEventListener(window, "load", function () {
 		backgroundImage: "handLayerbackground"
 	}).addTo(layer);
 	
-	/*var mage = new collie.DisplayObject({
-		x: "center",
-		width: 100.5,
-		height: 138.1,
-		backgroundImage: "mage"
-	}).addTo(layer);*/
-	
 	var cardScale = 8/4500 *windowHeight;
 	var cardWidth = 150;
 	var cardHeight = 200;
@@ -145,6 +138,7 @@ collie.util.addEventListener(window, "load", function () {
 			}
 		}).addTo(hand[i]).attach({
 			click : function () {
+				print('Click Detected!');
 				if(highlight[i].visible == false) {
 					highlight[i].set("visible", true);
 				} else {
@@ -154,7 +148,7 @@ collie.util.addEventListener(window, "load", function () {
 		});
 	}
 	
-    var oTimerAttack = collie.Timer.cycle(warriorAttack, "10fps", {
+    /*var oTimerAttack = collie.Timer.cycle(warriorAttack, "10fps", {
         from : 0,
         to : 6,
         loop : 1,
