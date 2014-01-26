@@ -50,20 +50,87 @@
 		            // an error occurred while attempting login
 		            alert(error);
 		          } else if (user) {
-		          	myUid = user.uid
-		            // user authenticated with Firebase
-		            myRootRef.child("users").child("searching").once( 'value', function(online_users){
-		              var uids = online_users.val()
-		              if(uids == null) {
-		                myRootRef.child("users").update({"searching" : myUid});
-		              } else {
-		              	myRootRef.child("users").child("searching").once( 'value', function(searching_user_uid){
-		              		setup_game(searching_user_uid.val())
-			              	myRootRef.child("users").update({"searching" : null});
-			              	$("body").fadeOut(500, redirectPage);
-		              	});
-		              }
-		            });
+		          	myUid = user.uid;
+		          	console.log(myUid);
+		          				var playerRef = myRootRef.child("tagtech_dynamic").child(myUid);
+
+			playerRef.child("opponent").once('value', function(opponent_uid) {
+				var opponentRef = myRootRef.child("tagtech_dynamic").child(opponent_uid.val());
+
+				playerRef.child('deck').once('value', function( cards ) {
+					var deck = cards.val();
+					var hand = new Array();
+					for(var i = p_deck_pos; i < p_deck_pos+5; ++i) {
+						hand.push(deck[i])
+					}
+					playerRef.child('hand').set(hand);
+				});
+
+			var characters = new Array();
+			playerRef.child("comm_names").once("value", function(player) {
+				characters.push(player.val()[0]);
+				characters.push(player.val()[1]);
+
+				opponentRef.child("comm_names").once("value", function(player) {
+				characters.push(player.val()[0]);
+				characters.push(player.val()[1]);
+			
+var c1img = new Image();
+			var div = document.getElementById('play-area');
+			c1img.onload = function() {
+				c1img.style.width = '10%';
+				c1img.style.height = 'auto';
+				c1img.style.position = 'absolute';
+				c1img.style.left = '120px';
+				c1img.style.bottom = '200px';
+				div.appendChild(c1img);
+			};
+			c1img.src = 'img/' + characters[0] + '.png';
+
+			var c3img = new Image();
+			var div = document.getElementById('play-area');
+			c3img.onload = function() {
+				c3img.style.width = '10%';
+				c3img.style.height = 'auto';
+				c3img.style.position = 'absolute';
+				c3img.style.left = '120px';
+				c3img.style.bottom = '10px';
+				div.appendChild(c3img);
+			};
+			c3img.src = 'img/' + characters[1] + '.png';
+			
+			var c2img = new Image();
+			var div = document.getElementById('play-area');
+			c2img.onload = function() {
+				c2img.style.width = '10%';
+				c2img.style.height = 'auto';
+				c2img.style.position = 'absolute';
+				c2img.style.right = '150px';
+				c2img.style.bottom = '300px';
+				div.appendChild(c2img);
+			};
+			c2img.src = 'img/' + characters[2] + '.png';
+
+			var c4img = new Image();
+			var div = document.getElementById('play-area');
+			c4img.onload = function() {
+				c4img.style.width = '10%';
+				c4img.style.height = 'auto';
+				c4img.style.position = 'absolute';
+				c4img.style.right = '120px';
+				c4img.style.bottom = '70px';
+				div.appendChild(c4img);
+			};
+			c4img.src = 'img/' + characters[3] + '.png';
+			});
+
+			});
+			console.log(characters);
+			});
+
+		
+
+			
 		          } else {
 		            // user is logged out
 		            window.location.href = "index.html";
@@ -84,54 +151,12 @@
 				div.appendChild(damage);
 			}*/
 			//displayDamage(10, 1); //test
-			var playerRef = myRootRef.child("tagtech_dynamic").child(myUid)
-			playerRef.child("opponent").once('value', function(opponent_uid) {
-				var opponentRef = myRootRef.child("tagtech_dynamic").child(opponent_uid.val());
 
-				playerRef.child('deck').once('value', function( cards ) {
-					var deck = cards.val();
-					var hand = new Array;
-					for(var i = p_deck_pos; i < p_deck_pos+5; ++i) {
-						hand.push(deck[i])
-					}
-					playerRef.child('hand').push(hand);
-				});
+			$("#surrender").on("click", function( e ){
+				alert("You have failed!");
+			});
 
-			});
 			
-			var characters = new Array();
-			playerRef.once("value", function(player) {
-				characters[0] = player.val().comm_names[0];
-				characters[1] = player.val().comm_names[2];
-			});
-			OpponentRef.once("value", function(player) {
-				characters[2] = player.val().comm_names[1];
-				characters[3] = player.val().comm_names[3];
-			});
-			
-			var c1img = new Image();
-			var div = document.getElementById('play-area');
-			c1img.onload = function() {
-				c1img.style.width = '10%';
-				c1img.style.height = 'auto';
-				c1img.style.position = 'absolute';
-				c1img.style.left = '120px';
-				c1img.style.bottom = '150px';
-				div.appendChild(c1img);
-			};
-			c1img.src = 'img/' + characters[0] + '.png';
-			
-			var c2img = new Image();
-			var div = document.getElementById('play-area');
-			c2img.onload = function() {
-				c2img.style.width = '10%';
-				c2img.style.height = 'auto';
-				c2img.style.position = 'absolute';
-				c2img.style.right = '150px';
-				c2img.style.bottom = '300px';
-				div.appendChild(c2img);
-			};
-			c2img.src = 'img/' + characters[1] + '.png';
 		});
 	})(jQuery);
 	</script>
