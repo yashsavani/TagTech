@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Start Fight</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="justified-nav.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>Pick your commanders</h1>
+        <p class="lead">Select the two commanders you want to play.</p>
+        <p id="selected">The commanders you have selected are: "<span class="first"></span>" and "<span class="second"></span>"</p>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-3">
+          <h2>Warrior</h2>
+          <p><img src="img/HackathonWarrior.png" alt="warrior" width="160" height="200"><p>
+           <button class="btn btn-primary warrior">Select Commander &raquo;</button>
+       </div>
+        <div class="col-lg-3">
+          <h2>Mage</h2>
+          <p><img src="img/HackathonMage.png" alt="mage" width="160" height="200"><p>
+           <button class="btn btn-primary mage">Select Commander &raquo;</button>
+       </div>
+        <div class="col-lg-3">
+          <h2>Ranger</h2>
+          <p><img src="img/HackathonRanger.png" alt="ranger" width="160" height="200"><p>
+           <button class="btn btn-primary ranger">Select Commander &raquo;</button>
+        </div>
+        <div class="col-lg-3">
+          <h2>Cleric</h2>
+          <p><img src="img/HackathonCleric.png" alt="cleric" width="200" height="200"><p>
+           <button class="btn btn-primary cleric">Select Commander &raquo;</button>
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+    <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
+    <script type="text/javascript">
+    (function($) {
+      $(document).ready( function() {
+        var selected = 0;
+        var sel_types = new Array();
+        $('button').on('click', function() {
+          var $this = $(this);
+          if($this.hasClass("warrior")) sel_types[selected++] = "warrior";
+          else if ($this.hasClass("mage")) sel_types[selected++] = "mage";
+          else if ($this.hasClass("ranger")) sel_types[selected++] = "ranger";
+          else if ($this.hasClass("cleric")) sel_types[selected++] = "cleric";
+          console.log(sel_types[0])
+
+          if(selected == 1) $("#selected>span.first").text(sel_types[0]);
+          if(selected == 2) {
+            $("#selected>span.second").text(sel_types[1]);
+            $("body").fadeOut(1000, redirectPage);
+            
+          }
+          function redirectPage() {
+            window.location.href = "fight_page.html";
+          }
+        })
+      })
+    })(jQuery);
+    </script>
+  </body>
+</html>
