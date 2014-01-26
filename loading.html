@@ -118,8 +118,8 @@
 
 		        function setup_game(opp_uid) {
 		        	var dynamicRef = myRootRef.child("tagtech_dynamic");
-		        	dynamicRef.child(myUid).child("opponent").set(opp_uid);
-		        	dynamicRef.child(opp_uid).child("opponent").set(myUid);
+		        	dynamicRef.child(myUid).child("opponent").push(opp_uid);
+		        	dynamicRef.child(opp_uid).child("opponent").push(myUid);
 
 		        	var staticRef = myRootRef.child("tagtech_static");
 		        	staticRef.child("cards").once( 'value', function(all_cards){
@@ -128,7 +128,7 @@
 		        			var pick = Math.floor(Math.random() * 12);
 		        			deck.push(all_cards.val()[pick]);
 		        		}
-		        		dynamicRef.child(myUid).child("deck").set(deck);
+		        		dynamicRef.child(myUid).child("deck").push(deck);
 		        	});
 		        
 		        }
@@ -144,7 +144,7 @@
 		        			var pick = Math.floor(Math.random() * 12);
 		        			deck.push(all_cards.val()[pick]);
 		        		}
-		        		dynamicRef.child(myUid).child("deck").set(deck);
+		        		dynamicRef.child(myUid).child("deck").push(deck);
 		        	});
 
 		        	$("body").fadeOut(500, redirectPage);
@@ -157,7 +157,7 @@
 		            myRootRef.child("users").child("online").once('value', function(onliners) {
 		              var arr = onliners.val();
 		              arr.splice( $.inArray(uid, arr), 1 );
-		              myRootRef.child("users").child("online").set(arr);
+		              myRootRef.child("users").child("online").push(arr);
 		            });
 
 		            myRootRef.child("users").child("searching").once('value', function(searchers) {
