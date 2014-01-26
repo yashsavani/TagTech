@@ -64,6 +64,10 @@ collie.util.addEventListener(window, "load", function () {
                 handLayer.removeChild(oEvent.displayObject);
                 handLayer.addChild(oEvent.displayObject);
             }
+			if (!oTimerSelect.isPlaying()) {
+                oTimer.stop();
+                oTimerSelect.start();
+            }
         },
         /*mousemove : function (oEvent) {
             if (oSelectedDisplayObject !== null) {
@@ -77,18 +81,24 @@ collie.util.addEventListener(window, "load", function () {
         }*/
     });
 
+	//hardcoded map of cards to locations:
+	var testArray = new Array();
+	testArray["mage"] = "img/mage.png";
+	testArray["warrior"] = "img/warrior.png";
+	testArray["swordCard"] = "img/swordCard.png";
+	testArray["handLayerbackground"] = "img/handbackground.png";
+	testArray["warriorAttack"] = "img/warrior.png";
+	testArray["cardGlow"] = "img/cardglow.png";
+	testArray["frame"] = "img/backgroundframe.png";
+	
 	collie.ImageManager.add({
-		handLayerbackground: "C:/Users/Micah/TagTech/img/handbackground.png",
-		actionbox1: "C:/Users/Micah/TagTech/img/actionbox.png",
-		actionbox2: "C:/Users/Micah/TagTech/img/actionbox.png",
-		actionbox3: "C:/Users/Micah/TagTech/img/actionbox.png",
-		actionbox4: "C:/Users/Micah/TagTech/img/actionbox.png",
-		mage: "C:/Users/Micah/TagTech/img/mage.png",
-		warrior: "C:/Users/Micah/TagTech/img/warrior.png",
-		warriorAttack: "C:/Users/Micah/TagTech/img/warrior.png",
-		swordCard: "C:/Users/Micah/TagTech/img/swordCard.png",
-		cardGlow: "C:/Users/Micah/TagTech/img/cardglow.png",
-		frame: "C:/Users/Micah/TagTech/img/backgroundframe.png"
+		handLayerbackground: testArray["handLayerbackground"],
+		mage: testArray["mage"],
+		warrior: testArray["warrior"],
+		warriorAttack: testArray["warriorAttack"],
+		swordCard: testArray["swordCard"],
+		cardGlow: testArray["cardGlow"],
+		frame: testArray["frame"]
 	});
 
 	var handLayerbackground = new collie.DisplayObject({
@@ -103,8 +113,16 @@ collie.util.addEventListener(window, "load", function () {
 	var cardHeight = 200;
 	var numCards = 8;
 	
+	var testArray = new Array();
+	
+	for(var i=0; i < 7; i++) {
+		testArray[i] = "swordCard";
+	}
+	
+	
 	var hand = new Array();
-	var highlight = new Array();
+	var numHighlight = 4;
+	var currentHighlight = 0;
 	
 	for(var i=0; i < numCards; i++) {
 		var xPos, yPos;
@@ -121,31 +139,48 @@ collie.util.addEventListener(window, "load", function () {
 			width: cardWidth,
 			height: cardHeight,
 			useEvent : true,
-			backgroundImage: "swordCard", 
+			backgroundImage: testArray[i], 
 			scaleX : cardScale,
 			scaleY : cardScale, 
 			scale: cardScale
 		}).addTo(handLayer);
-		highlight[i] = new collie.DisplayObject({
-			x: hand[i].x-10,
-			y: hand[i].y-10,
-			width: cardWidth+20,
-			height: cardHeight+20,
-			backgroundImage: "cardGlow",
-			useAutoStart : true,
-			onStart : function() {
-				highlight[i].set("visible", false);
-			}
-		}).addTo(hand[i]).attach({
-			click : function () {
-				print('Click Detected!');
-				if(highlight[i].visible == false) {
-					highlight[i].set("visible", true);
-				} else {
-					highlight[i].set("visible", false);
-				}
-			}
-		});
+		/*var oAvatarWalk = new collie.DisplayObject({
+        x : 0,
+        y : 0,
+        width : 70,
+        height : 150,
+        backgroundImage : "bird_walk"
+    }).addTo(oAvatar);*/
+     
+    var highlight = new collie.DisplayObject({
+        width : -10,
+        height : -10,
+        spriteLength : 0,
+        backgroundImage : "cardGlow",
+        visible : false
+    }).addTo(hand[i]);
+     
+    var oTimer = collie.Timer.cycle(highlight, "1fps", {
+        to : 0,
+        loop : 0,
+        onStart : function () {
+            highlight.set("visible", false);
+        }
+    });
+     
+    var oTimerSelect = collie.Timer.cycle(highlight, "1fps", {
+        from : 0,
+        to : 0,
+        loop : 0,
+        useAutoStart : false,
+        onStart : function () {
+			alert('visible: %d', highlight.get('visible'));
+            highlight.set("visible", true);
+        },
+        onComplete : function () {
+            oTimer.start();
+        }
+    });
 	}
 	
     /*var oTimerAttack = collie.Timer.cycle(warriorAttack, "10fps", {
