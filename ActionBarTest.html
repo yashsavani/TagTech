@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+<div id="container"></div>
+<script src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
+<script>
+
+var layer = new collie.Layer() {
+	width : 320, 
+	height : 480
+}
+
+collie.ImageManager.add({
+	cardtemp: "/img/cardtemplate.png"
+});
+
+var cardtemp = new collie.DisplayObject({
+	x: "center",
+	width: 129.4,
+    height: 165,
+    zIndex: 2,
+    backgroundImage: "cardtemp"
+}).addTo(layer);

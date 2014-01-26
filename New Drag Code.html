@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
+<script type="text/javascript">
+
+collie.util.addEventListener(window, "load", function () {
+
+    var layer = new collie.Layer({
+        width: 800,
+        height: 450
+    });
+
+    var hand = new collie.Layer({
+        width: 800,
+        height: 450
+    });
+
+    var oSelectedDisplayObject = null;
+    var htStartPosition = {};
+    var htSelectedDisplayObjectPosition = {};
+    
+    hand.attach({
+        mousedown : function (oEvent) {
+            if (oEvent.displayObject) {
+                oEvent.displayObject.set({
+                    scaleX : oEvent.displayObject.get("scale") * 1.2,
+                    scaleY : oEvent.displayObject.get("scale") * 1.2
+                });
+                oSelectedDisplayObject = oEvent.displayObject;
+                htStartPosition = {
+                    x : oEvent.x,
+                    y : oEvent.y 
+                };
+                htSelectedDisplayObjectPosition = {
+                    x : oSelectedDisplayObject.get("x"),
+                    y : oSelectedDisplayObject.get("y")
+                };
+            }
+        },
+        mouseup : function (oEvent) {
+            if (oSelectedDisplayObject !== null) {
+                oSelectedDisplayObject.set({
+                    scaleX : oSelectedDisplayObject.get("scale"),
+                    scaleY : oSelectedDisplayObject.get("scale")
+                });
+                oSelectedDisplayObject = null;
+                htSelectedDisplayObjectPosition = htStartPosition = {};
+                
+                hand.removeChild(oEvent.displayObject);
+                hand.addChild(oEvent.displayObject);
+            }
+        },
+        mousemove : function (oEvent) {
+            if (oSelectedDisplayObject !== null) {
+                var x = htStartPosition.x - oEvent.x;
+                var y = htStartPosition.y - oEvent.y;
+                oSelectedDisplayObject.set({
+                    x : htSelectedDisplayObjectPosition.x - x,
+                    y : htSelectedDisplayObjectPosition.y - y
+                });
+            }
+        }
+    });
+
+    collie.ImageManager.add({
+        rabbit: "http://jindo.dev.naver.com/collie/img/" + folder + "/yame_walk.png,
+        actionbox1: "img/actionbox.png",
+        //@@ -17,14 +76,7 @@
+        mage: "img/mage.png",
+        swordcard: "img/swordcard.png"
+    });
+
+    var handbackground = new collie.DisplayObject({
+        x: "center",
+        width: 800,
+        //@@ -82,6 +134,7 @@
+        effect: collie.Effect.easeIn,
+        set: "y"
+    });
+
+      
+    // var rabbit = new collie.DisplayObject({
+    //     x: "center",
+    //     y: "center",
+    //     width: 129.4,
+    //     height: 165,
+    //     useEvent : true,
+    //     backgroundImage: "rabbit", 
+    //     scaleX : 1.0,
+    //     scaleY : 1.0, 
+    //     scale: 1.0
+    // }).addTo(hand);
+      
+    collie.Renderer.addLayer(hand);
+    collie.Renderer.load(document.getElementById("container"));
+    collie.Renderer.start();
+});
+</script>
+</body>
+</html>
