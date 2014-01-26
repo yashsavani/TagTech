@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+<div id="container"></div>
+
+<script src="js/imagesource.js"></script>
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+
+<script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
+<script type="text/javascript">
+
+//replace with player data from firebase
+var testplayers = new Array();
+testplayers[1] = "warrior";
+testplayers[2] = "mage";
+testplayers[3] = "range";
+testplayers[4] = "cleric";
+
+collie.ImageManager.add({
+	field: testArray["fieldBackground"],
+	mage: testArray["mage"],
+	cleric: testArray["cleric"],
+	warrior: testArray["warrior"],
+	ranger: testArray["ranger"]
+});
+
+var windowWidth = 640;
+var windowHeight = 307;
+
+var numPlayers = 2;
+var numCharacters = 4;
+var players = new Array();
+var characters = new Array();
+
+for(var i=0; i<numCharacters; i++) { //load unique characters into field
+	characters[i] = testplayers[i]; //replace testplayers with actual array
+}
+for(var h=1; h<=numPlayers; h++) {
+	players[i] = new collie.Layer({
+		width: windowWidth,
+		height: windowHeight
+	});
+	for(var m=0; m<numCharacters/numPlayers; m++) {
+		var newCharacter = new collie.DisplayObject({
+		x: 0,
+		y: 0,
+		width: windowWidth,
+		height: windowHeight,
+		backgroundImage: characters[m],
+		}).addTo(players[m/2]);
+	}
+}
+
+var backgroundLayer = new collie.Layer({
+	width: windowWidth,
+	height: windowHeight
+});
+
+var field = new collie.DisplayObject({
+	x: 0,
+	y: 0,
+	width: windowWidth,
+	height: windowHeight,
+	backgroundImage: "field",
+}).addTo(backgroundLayer);
+
+collie.Renderer.addLayer(backgroundLayer);
+for(var j=1; j<=numPlayers; j++) collie.Renderer.addLayer(players[j]);
+collie.Renderer.addLayer(backgroundLayer);
+collie.Renderer.load(document.getElementById("container"));
+collie.Renderer.start("30fps");
+</script>
+</body>
+</html>

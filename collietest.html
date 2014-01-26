@@ -7,6 +7,8 @@
 <body>
 <div id="container"></div>
 
+<script src="js/imagesource.js"></script>
+
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
@@ -88,17 +90,6 @@ collie.util.addEventListener(window, "load", function () {
             }
         }*/
     });
-
-	//hardcoded map of cards to locations:
-	var testArray = new Array();
-	testArray["mage"] = "img/mage.png";
-	testArray["warrior"] = "img/warrior.png";
-	testArray["swordCard"] = "img/MedSwordCard.png";
-	testArray["handLayerbackground"] = "img/handbackground.png";
-	testArray["warriorAttack"] = "img/warrior.png";
-	testArray["cardGlow"] = "img/cardglow.png";
-	testArray["frame"] = "img/backgroundframe.png";
-	testArray["cardBack"] = "img/cardback.png";
 	
 	collie.ImageManager.add({
 		handLayerbackground: testArray["handLayerbackground"],
