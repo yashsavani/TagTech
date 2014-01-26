@@ -241,5 +241,31 @@ collie.util.addEventListener(window, "load", function () {
 });
 
 </script>
+
+<script>
+
+$(document).ready(function() {
+			var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+			var myUid;
+
+			var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+		        if (error) {
+		            // an error occurred while attempting login
+		            alert(error);
+		          } else if (user) {
+		          	myUid = user.uid
+		          	alert("Your uid is :"+myUid);
+		          } else {
+		            // user is logged out
+		            window.location.href = "index.html";
+		        }
+		    });
+			
+			auth.login('anonymous', {
+				rememberMe: false
+			});
+		});
+</script>
+
 </body>
 </html>
