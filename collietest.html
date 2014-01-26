@@ -6,13 +6,24 @@
 </head>
 <body>
 <div id="container"></div>
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+
 <script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
 <script type="text/javascript">
 
 collie.util.addEventListener(window, "load", function () {
-	const windowWidth = 800;
-	const windowHeight = 450;
-	
+	var windowWidth, windowHeight;
+	if($(window).height() < $(window).width() * 45/80) {
+		windowWidth = $(window).width();
+		windowHeight = windowWidth * 45/80;
+	} else {
+		windowHeight = $(window).height();
+		windowWidth = windowHeight * 80/45;
+	}
+
     var layer = new collie.Layer({
         width: windowWidth,
         height: windowHeight
@@ -85,11 +96,12 @@ collie.util.addEventListener(window, "load", function () {
 	var testArray = new Array();
 	testArray["mage"] = "img/mage.png";
 	testArray["warrior"] = "img/warrior.png";
-	testArray["swordCard"] = "img/swordCard.png";
+	testArray["swordCard"] = "img/MedSwordCard.png";
 	testArray["handLayerbackground"] = "img/handbackground.png";
 	testArray["warriorAttack"] = "img/warrior.png";
 	testArray["cardGlow"] = "img/cardglow.png";
 	testArray["frame"] = "img/backgroundframe.png";
+	testArray["cardBack"] = "img/cardback.png";
 	
 	collie.ImageManager.add({
 		handLayerbackground: testArray["handLayerbackground"],
@@ -98,19 +110,27 @@ collie.util.addEventListener(window, "load", function () {
 		warriorAttack: testArray["warriorAttack"],
 		swordCard: testArray["swordCard"],
 		cardGlow: testArray["cardGlow"],
+		cardBack: testArray["cardBack"],
 		frame: testArray["frame"]
 	});
 
+	wScale = windowWidth / 800;
+	hScale = windowHeight / 450;
+	
 	var handLayerbackground = new collie.DisplayObject({
-		x: "center",
+		x: 0,
+		y: 0,
 		width: windowWidth,
 		height: windowHeight,
-		backgroundImage: "handLayerbackground"
+		backgroundImage: "handLayerbackground",
+		scaleX:  wScale,
+		scaleY:  hScale,
+		scale: wScale
 	}).addTo(layer);
 	
-	var cardScale = 8/4500 *windowHeight;
 	var cardWidth = 150;
 	var cardHeight = 200;
+	var cardScale = 0.8 * wScale;
 	var numCards = 8;
 	
 	var testArray = new Array();
@@ -128,10 +148,10 @@ collie.util.addEventListener(window, "load", function () {
 		var xPos, yPos;
 		if(i < 4) {
 			xPos = (windowWidth/5)*(i+1) - cardWidth/2;
-			yPos = windowHeight / 4 - cardHeight / 2;
+			yPos = (windowHeight)/2 - (cardWidth)/6 - cardWidth;
 		} else {
 			xPos = (windowWidth/5)*(i-3) - cardWidth/2;
-			yPos = windowHeight * 3 / 4 - cardHeight / 2;
+			yPos = (windowHeight)/2 + (cardWidth)/6;
 		}
 		hand[i] = new collie.DisplayObject({
 			x: xPos,
@@ -174,7 +194,7 @@ collie.util.addEventListener(window, "load", function () {
         loop : 0,
         useAutoStart : false,
         onStart : function () {
-			alert('visible: %d', highlight.get('visible'));
+			//alert('visible: %d', highlight.get('visible'));
             highlight.set("visible", true);
         },
         onComplete : function () {
@@ -183,25 +203,26 @@ collie.util.addEventListener(window, "load", function () {
     });
 	}
 	
-    /*var oTimerAttack = collie.Timer.cycle(warriorAttack, "10fps", {
-        from : 0,
-        to : 6,
-        loop : 1,
-        useAutoStart : false,
-        onStart : function () {
-            warriorStill.set("visible", false);
-            warriorAttack.set("visible", true);
-        },
-        onComplete : function () {
-            oTimer.start();
-        }
-    });*/
+    var deck = new collie.DisplayObject({
+			x: (windowWidth/5) * 4 -cardWidth/2,
+			y: (windowHeight)/2 + (cardWidth)/6,
+			width: cardWidth,
+			height: cardHeight,
+			backgroundImage: "cardBack", 
+			scaleX : cardScale,
+			scaleY : cardScale, 
+			scale: cardScale
+		}).addTo(handLayer);
 		
 	var frame = new collie.DisplayObject({
-		x: "center",
+		x: 0,
+		y: 0,
 		width: windowWidth,
 		height: windowHeight,
-		backgroundImage: "frame"
+		backgroundImage: "frame",
+		scaleX: wScale,
+		scaleY: hScale,
+		scale: wScale
 	}).addTo(frameLayer);
 	
 	/*var currentY = swordCard.get("y");
