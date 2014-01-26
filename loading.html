@@ -157,7 +157,11 @@
 		            myRootRef.child("users").child("online").once('value', function(onliners) {
 		              var arr = onliners.val();
 		              arr.splice( $.inArray(uid, arr), 1 );
+<<<<<<< HEAD
 		              myRootRef.child("users").child("online").push(arr);
+=======
+		              myRootRef.child("users").child("online").update(arr);
+>>>>>>> dc476dd1b31fd6dd5b3d59f0ee889fd0eb81d309
 		            });
 
 		            myRootRef.child("users").child("searching").once('value', function(searchers) {
@@ -173,7 +177,7 @@
 		        	myRootRef.child("users").child("online").once('value', function(onliners) {
 		              var arr = onliners.val();
 		              arr.splice( $.inArray(uid, arr), 1 );
-		              myRootRef.child("users").child("online").set(arr);
+		              myRootRef.child("users").child("online").update(arr);
 		            });
 
 		            myRootRef.child("users").child("searching").once('value', function(searchers) {
