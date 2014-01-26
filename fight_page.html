@@ -57,15 +57,6 @@
 			playerRef.child("opponent").once('value', function(opponent_uid) {
 				var opponentRef = myRootRef.child("tagtech_dynamic").child(opponent_uid.val());
 
-				playerRef.child('deck').once('value', function( cards ) {
-					var deck = cards.val();
-					var hand = new Array();
-					for(var i = p_deck_pos; i < p_deck_pos+5; ++i) {
-						hand.push(deck[i])
-					}
-					playerRef.child('hand').set(hand);
-				});
-
 			var characters = new Array();
 			playerRef.child("comm_names").once("value", function(player) {
 				characters.push(player.val()[0]);
