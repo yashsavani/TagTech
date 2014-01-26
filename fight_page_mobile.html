@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>TagTech | Mobile</title>
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /> -->
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+
+	<div class="container">
+		<div class="card-arena">
+	</div>
+	
+
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
+	<script type="text/javascript">
+	(function( $ ){
+
+		$(document).ready(function() {
+			var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+			var myUid;
+
+			var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+		        if (error) {
+		            // an error occurred while attempting login
+		            alert(error);
+		          } else if (user) {
+		          	myUid = user.uid
+		          	alert("Your uid is :"+myUid);
+		          } else {
+		            // user is logged out
+		            window.location.href = "index.html";
+		        }
+		    });
+			
+			auth.login('anonymous', {
+				rememberMe: false
+			});
+		});
+	})(jQuery);
+	</script>
+</body>
+</html>
