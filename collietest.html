@@ -10,29 +10,31 @@
 <script type="text/javascript">
 
 collie.util.addEventListener(window, "load", function () {
-
+	const windowWidth = 800;
+	const windowHeight = 450;
+	
     var layer = new collie.Layer({
-        width: 800,
-        height: 450
+        width: windowWidth,
+        height: windowHeight
     });
-	var hand = new collie.Layer({
-        width: 800,
-        height: 450
+	var handLayer = new collie.Layer({
+        width: windowWidth,
+        height: windowHeight
     });
 	var character = new collie.Layer({
-		width: 800,
-		height: 450,
+		width: windowWidth,
+		height: windowHeight
 	});
 	var frameLayer = new collie.Layer({
-        width: 800,
-        height: 450
+        width: windowWidth,
+        height: windowHeight
     });
 
     var oSelectedDisplayObject = null;
     var htStartPosition = {};
     var htSelectedDisplayObjectPosition = {};
     
-    hand.attach({
+    handLayer.attach({
         mousedown : function (oEvent) {
             if (oEvent.displayObject) {
                 oEvent.displayObject.set({
@@ -59,8 +61,8 @@ collie.util.addEventListener(window, "load", function () {
                 oSelectedDisplayObject = null;
                 htSelectedDisplayObjectPosition = htStartPosition = {};
                 
-                hand.removeChild(oEvent.displayObject);
-                hand.addChild(oEvent.displayObject);
+                handLayer.removeChild(oEvent.displayObject);
+                handLayer.addChild(oEvent.displayObject);
             }
         },
         /*mousemove : function (oEvent) {
@@ -76,7 +78,7 @@ collie.util.addEventListener(window, "load", function () {
     });
 
 	collie.ImageManager.add({
-		handbackground: "C:/Users/Micah/TagTech/img/handbackground.png",
+		handLayerbackground: "C:/Users/Micah/TagTech/img/handbackground.png",
 		actionbox1: "C:/Users/Micah/TagTech/img/actionbox.png",
 		actionbox2: "C:/Users/Micah/TagTech/img/actionbox.png",
 		actionbox3: "C:/Users/Micah/TagTech/img/actionbox.png",
@@ -89,104 +91,69 @@ collie.util.addEventListener(window, "load", function () {
 		frame: "C:/Users/Micah/TagTech/img/backgroundframe.png"
 	});
 
-	var handbackground = new collie.DisplayObject({
+	var handLayerbackground = new collie.DisplayObject({
 		x: "center",
-		width: 800,
-		height: 450,
-		backgroundImage: "handbackground"
+		width: windowWidth,
+		height: windowHeight,
+		backgroundImage: "handLayerbackground"
 	}).addTo(layer);
-	var actionbox1 = new collie.DisplayObject({
-		x: 110,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox1"
-	}).bottom(300).addTo(layer);
-	var actionbox2 = new collie.DisplayObject({
-		x: 270,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox2"
-	}).bottom(300).addTo(layer);
-	var actionbox3 = new collie.DisplayObject({
-		x: 430,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox3"
-	}).bottom(300).addTo(layer);
-	var actionbox4 = new collie.DisplayObject({
-		x: 590,
-		width: 100,
-		height: 100,
-		backgroundImage: "actionbox4"
-	}).bottom(300).addTo(layer);
+	
 	/*var mage = new collie.DisplayObject({
 		x: "center",
 		width: 100.5,
 		height: 138.1,
 		backgroundImage: "mage"
 	}).addTo(layer);*/
-	var swordCard = new collie.DisplayObject({
-		x: "center",
-		width: 150,
-		height: 200,
-		useEvent : true,
-        backgroundImage: "swordCard", 
-        scaleX : 0.8,
-        scaleY : 0.8, 
-        scale: 0.8
-	}).bottom(50).addTo(hand);
 	
-	var cardGlow = new collie.DisplayObject({
-		x: -10,
-		y: -10,
-		width: 170,
-		height: 220,
-		backgroundImage: "cardGlow"
-	}).addTo(swordCard).attach({
-		click : function () {
-			if(cargGlow.get("visible") == false) {
-				cardGlow.set("visible", true);
-			} else {
-				cardGlow.set("visible", false);
-			}
-		}
-	});
+	var cardScale = 8/4500 *windowHeight;
+	var cardWidth = 150;
+	var cardHeight = 200;
+	var numCards = 8;
 	
-	/*var warrior = new collie.DisplayObject({
-		x: 50,
-		y: 50,
-		width: 130,
-		height: 190
-	}).addTo(character).attach({
-		click : function () {
-			if (!oTimerAttack.isPlaying()) {
-				oTimer.stop();
-				oTimerAttack.start();
-			}
+	var hand = new Array();
+	var highlight = new Array();
+	
+	for(var i=0; i < numCards; i++) {
+		var xPos, yPos;
+		if(i < 4) {
+			xPos = (windowWidth/5)*(i+1) - cardWidth/2;
+			yPos = windowHeight / 4 - cardHeight / 2;
+		} else {
+			xPos = (windowWidth/5)*(i-3) - cardWidth/2;
+			yPos = windowHeight * 3 / 4 - cardHeight / 2;
 		}
-	});
-	var warriorStill = new collie.DisplayObject({
-		x: 0,
-		y: 0,
-		width: 134,
-		height: 190,
-		backgroundImage: "warrior"
-	}).addTo(warrior);
-	var warriorAttack = new collie.DisplayObject({
-		x:  0,
-		width: 130,
-		height: 190,
-		backgroundImage: "warriorAttack"
-	}).addTo(warrior);
-	var oTimer = collie.Timer.cycle(warriorStill, "4fps", {
-		from: 0,
-        to : 2,
-        loop : 0,
-        onStart : function () {
-            warriorStill.set("visible", true);
-            warriorAttack.set("visible", false);
-        }
-    });
+		hand[i] = new collie.DisplayObject({
+			x: xPos,
+			y: yPos,
+			width: cardWidth,
+			height: cardHeight,
+			useEvent : true,
+			backgroundImage: "swordCard", 
+			scaleX : cardScale,
+			scaleY : cardScale, 
+			scale: cardScale
+		}).addTo(handLayer);
+		highlight[i] = new collie.DisplayObject({
+			x: hand[i].x-10,
+			y: hand[i].y-10,
+			width: cardWidth+20,
+			height: cardHeight+20,
+			backgroundImage: "cardGlow",
+			useAutoStart : true,
+			onStart : function() {
+				highlight[i].set("visible", false);
+			}
+		}).addTo(hand[i]).attach({
+			click : function () {
+				if(highlight[i].visible == false) {
+					highlight[i].set("visible", true);
+				} else {
+					highlight[i].set("visible", false);
+				}
+			}
+		});
+	}
+	
     var oTimerAttack = collie.Timer.cycle(warriorAttack, "10fps", {
         from : 0,
         to : 6,
@@ -203,8 +170,8 @@ collie.util.addEventListener(window, "load", function () {
 		
 	var frame = new collie.DisplayObject({
 		x: "center",
-		width: 800,
-		height: 450,
+		width: windowWidth,
+		height: windowHeight,
 		backgroundImage: "frame"
 	}).addTo(frameLayer);
 	
@@ -227,7 +194,7 @@ collie.util.addEventListener(window, "load", function () {
 	});*/
 
 	collie.Renderer.addLayer(layer);
-	collie.Renderer.addLayer(hand);
+	collie.Renderer.addLayer(handLayer);
 	collie.Renderer.addLayer(character);
 	collie.Renderer.addLayer(frameLayer);
 	collie.Renderer.load(document.getElementById("container"));
