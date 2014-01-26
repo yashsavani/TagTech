@@ -61,7 +61,21 @@
 				alert(error);
 			} else if (user) {
 				// user authenticated with Firebase
-        $("body").fadeOut(1000, redirectPage);
+        myRootRef.child("users").child("online").once( 'value', function(online_users){
+          var uids = online_users.val()
+              
+          if(uids == null) {
+            uids = new Array(user.uid);
+            myRootRef.child("users").update({"online" : uids});
+
+          } else if($.inArray(user.uid, uids) < 0) {
+            uids.push(user.uid);
+            myRootRef.child("users").update({"online" : uids});
+
+          }
+        });
+
+        $("body").fadeOut(300, redirectPage);
 			} else {
     			// user is logged out
   		}

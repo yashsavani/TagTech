@@ -49,9 +49,9 @@
 				alert(error);
 			} else if (user) {
 				// user authenticated with Firebase
-				alert('User ID: ' + user.id + ', Provider: ' + user.provider);
 			} else {
     			// user is logged out
+                window.location.href = "index.html";
   			}
   		});
 	</script>

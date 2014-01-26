@@ -3,6 +3,8 @@
 		"cards_in_deck" : 36,
 		"cards_in_hand" : 7,
 		"action_cards" : 4,
+		"player_types" : 4,
+		"card_types" : 12,
 		"players" : {
 			"warrior" : {
 				"init_hp" : 100,
@@ -29,75 +31,75 @@
 				"health" : 5
 			}
 		},
-		"cards" : {
-			"strong sword" : {
+		"cards" : [{ 
+				"name" : "strong sword",
 				"type" : "melee",
 				"move" : ["attack", 20]
 			},
-			"sword" : {
+			{
+				"name" : "sword",
 				"type" : "melee",
 				"move" : ["attack", 15]
 			},
-			"weak sword" : {
+			{
+				"name" : "weak sword",
 				"type" : "melee",
 				"move" : ["attack", 10]
 			},
-
-			"strong spell" : {
+			{
+				"name" : "strong spell",
 				"type" : "spell",
 				"move" : ["attack", 20]
 			},
-			"spell" : {
+			{
+				"name" : "spell",
 				"type" : "spell",
 				"move" : ["attack", 15]
 			},
-			"weak spell" : {
+			{
+				"name" : "weak spell",
 				"type" : "spell",
 				"move" : ["attack", 10]
 			},
-
-			"strong projectile" : {
+			{
+				"name" : "strong projectile",
 				"type" : "projectile",
 				"move" : ["attack", 20]
 			},
-			"projectile" : {
+			{
+				"name" : "projectile",
 				"type" : "projectile",
 				"move" : ["attack", 15]
 			},
-			"weak projectile" : {
+			{
+				"name" : "weak projectile",
 				"type" : "projectile",
 				"move" : ["attack", 10]
 			},
-
-
-			"shield" : {
+			{
+				"name" : "shield",
 				"type" : "melee",
 				"move" : ["defense", 10]
 			},
-			"dodge" : {
+			{
+				"name" : "dodge",
 				"type" : "spell",
 				"move" : ["defense", 15]
 			},
-			"health" : {
+			{
+				"name" : "health",
 				"type" : "health",
 				"move" : ["health", 10]
 			}
-		}
+		]
 	},
-	"tagtech_dynamic" : {
-		"players" : {
-			"one" : {
-				"first" : ["warrior", 100],
-				"second" : ["mage", 75]
-			},
-			"two" : {
-				"first" : ["ranger", 85],
-				"second" : ["cleric", 120]
-			}
-		},
-		"deck" : [],
-		"hand" : [],
-		"action_cards" : []
 
+	"tagtech_dynamic" : {
+	},
+
+	"users" : {
+		"online" : [],
+		"searching" : [],
+		"ingame" : []
 	}
 }
