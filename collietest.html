@@ -15,31 +15,28 @@
 <script type="text/javascript">
 
 collie.util.addEventListener(window, "load", function () {
-	var windowWidth, windowHeight;
-	if($(window).height() < $(window).width() * 45/80) {
-		windowWidth = $(window).width();
-		windowHeight = windowWidth * 45/80;
-	} else {
+	var windowWidth = 800;
+	var windowHeight = 450;
+	/*if($(window).height() < $(window).width() * 45/80) {
 		windowHeight = $(window).height();
 		windowWidth = windowHeight * 80/45;
-	}
+	} else {
+		windowWidth = $(window).width();
+		windowHeight = windowWidth * 45/80;
+	}*/
 
     var layer = new collie.Layer({
-        width: windowWidth,
-        height: windowHeight
+        width: 1920,
+        height: 1080
     });
 	var handLayer = new collie.Layer({
         width: windowWidth,
         height: windowHeight
     });
-	var character = new collie.Layer({
-		width: windowWidth,
-		height: windowHeight
-	});
-	var frameLayer = new collie.Layer({
+	/*var frameLayer = new collie.Layer({
         width: windowWidth,
         height: windowHeight
-    });
+    });*/
 
     var oSelectedDisplayObject = null;
     var htStartPosition = {};
@@ -118,14 +115,13 @@ collie.util.addEventListener(window, "load", function () {
 	hScale = windowHeight / 450;
 	
 	var handLayerbackground = new collie.DisplayObject({
-		x: 0,
-		y: 0,
-		width: windowWidth,
-		height: windowHeight,
+		x: "center",
+		width: 1920,
+		height: 1080,
 		backgroundImage: "handLayerbackground",
-		scaleX:  wScale,
-		scaleY:  hScale,
-		scale: wScale
+		scaleX:  80/192,
+		scaleY:  45/108,
+		//scale: 0.416 * wScale
 	}).addTo(layer);
 	
 	var cardWidth = 150;
@@ -214,16 +210,16 @@ collie.util.addEventListener(window, "load", function () {
 			scale: cardScale
 		}).addTo(handLayer);
 		
-	var frame = new collie.DisplayObject({
+	/*var frame = new collie.DisplayObject({
 		x: 0,
 		y: 0,
 		width: windowWidth,
 		height: windowHeight,
 		backgroundImage: "frame",
-		scaleX: wScale,
-		scaleY: hScale,
+		//scaleX: wScale,
+		//scaleY: hScale,
 		scale: wScale
-	}).addTo(frameLayer);
+	}).addTo(frameLayer);*/
 	
 	/*var currentY = swordCard.get("y");
 	swordCard.attach({
@@ -245,8 +241,7 @@ collie.util.addEventListener(window, "load", function () {
 
 	collie.Renderer.addLayer(layer);
 	collie.Renderer.addLayer(handLayer);
-	collie.Renderer.addLayer(character);
-	collie.Renderer.addLayer(frameLayer);
+	//collie.Renderer.addLayer(frameLayer);
 	collie.Renderer.load(document.getElementById("container"));
 	collie.Renderer.start("30fps");
 });
