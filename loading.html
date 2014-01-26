@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Loading</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>Loading...</h1>
+        <p class="lead">Please wait to be teamed with an appropriate partner.</p>
+        <canvas width="27" height="27" id="myCanvas"></canvas>
+      </div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+    <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+    	(function($) {
+            $(document).ready( function() {
+	            var cog = new Image();
+	            function init() {
+	                cog.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAYAAACN1PRVAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABK1JREFUeNqMVt1ZGzkUvVfS4IW1l8GO82w6IBXE7mCpAFMB+Pt4Z6iApALcAe4AU0HoAJfg7BPYHinnXmmciX+y0YdmJHnQ0bk/R5cvh5cUyFPwRD4EChgEvGWMB36R3+JaiTkmD5gOs8yNb25uLlerFf1pM2yIGA82TEY7xow1oj4GBU6S6yywPNG4JwDH+XGv0Whs7ndN8n97mmPsLCSYgy7ImPQE/pFDyAF+7L0fgTNFUDBcLal90taD1doQ/T6NT9DnW8zkT+jJuQVYukG3hifCVk/L3JOxMBa8VVlSp9MhHKLaB+zpNo1fdgEpmByuMqUAV5viOQLwXNax9KBAFNEEpN1pUwnQmvl6aTza6zNjrCKaymeyOdYAMgfg18iG4T/qw+AC94zvpzDjcwqOXo3VGH26H0xMZ7jPxgT0R2zUi4BYt6bAfEbJvJFZKA4ODgZ5nhcJLE9mk35X21vWC/TXKmiwr2xszoQd/PQv3t/QCzY2twpqBpb5FKOp+hCgzWaTWq0W1Xx0ij5An9WC5VtiLMwvNBrVaSGMvQk5jHQVPN7sb0HzAtE+QJrNgrcUNEARieWCut0ugR0tl8sKcJ5Ahc3jRviPK8ZGTaaBwGKyT+gTiwM4a3Jrba6MbeVXo5F4kp9shn29ndUYC9vLirGDXzRhrYhD8DME5Hkg22df5rDYS/RXmVIsaP/Q/SXs600YnifTjbeSWliEdTYb3QyTqYfdDKTL4B1KS6tVqf6SgGq3P9BvZGpvNIrPCgVKZlGlCDQDxJiCjVppCab05DJHzb+b1Gm36X80cVjLuzozexs0f6IgRkA5XRhzIixRL1+IzhwdHVHrn1Y9oXe1i10aKT6bGGhg1CKK+cT0zCGCs0oXTIogybJMw/779//o48duMvnO9rzLn+Kz8wgS5Shqo4njpCoOQA5Ajb8adHh4SMvVghaLhYb/HsBip88krNVISSEigOlhjmi0LziNhr6wOsgO9C1339vbGznnNAU2AM9Svk235cqKieKGkldAf7DGvTrjnjJnzyQoMu0ZTuZgUqvmlYR+f39XIE4uqCX1E/rDZpCYmKwOOmivAfYK9KF1AM7EdG4uAMLAOjmQideQXOJQkyUisqYiFRhtSFbxCxj8do0T30dmTvLhC+an0MZZVBHX09tBTG4qFigZEJEChjTIEwtRik81Qa7uOQU0IrYAe7FRjqYw6SlYjgAyN1GmHsFIGPfVnxzFuFITKEkfYK+oWZ5qKlIkcZ7UE92oXBmeIgIxtAO5UtSHqo9uiLW+sme5ejSIRASeAFR4LYy8MMzL1aq3EYWzJF28BgMEzGYpBkrMKelgl+P6uTcVY8NjLYyYPwMTCcufSaouH6al9xNJcjC82vDb9uVZKbrWIumNO+waVsu1TCC+Wxcg6xaSpsZSYM2wLO9/U8qZWH+wztQnsfAxV/E3MIKZVf1FsmJVV8mamhEmxZ0X7sSsABsGv1tZJGejmptU7FBUDYzPAXQBwFEEl+9+stFEroJEci2ELwIMmZuWoSTE9DYYcWVCjlJrZWMpeBhlAEqBiulPE84S3ixU5gSTwGGOdyEVNJXxA8nPevshwABHktBS1YoQ+QAAAABJRU5ErkJggg=='; // Set source path
+	                setInterval(draw,10);
+	            }
+	            var rotation = 0;
+	            function draw(){
+	                var ctx = document.getElementById('myCanvas').getContext('2d');
+	                ctx.globalCompositeOperation = 'destination-over';
+	                ctx.save();
+	                ctx.clearRect(0,0,27,27);
+	                ctx.translate(13.5,13.5); // to get it in the origin
+	                rotation +=1;
+	                ctx.rotate(rotation*Math.PI/64); //rotate in origin
+	                ctx.translate(-13.5,-13.5); //put it back
+	                ctx.drawImage(cog,0,0);
+	                ctx.restore();
+	            }
+	            init();
+
+	            var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+	            var myUid;
+
+		        var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+		          if (error) {
+		            // an error occurred while attempting login
+		            alert(error);
+		          } else if (user) {
+		          	myUid = user.uid
+		            // user authenticated with Firebase
+		            myRootRef.child("users").child("searching").once( 'value', function(online_users){
+		              var uids = online_users.val()
+		              if(uids == null) {
+		                myRootRef.child("users").update({"searching" : myUid});
+		              } else {
+		              	myRootRef.child("users").child("searching").once( 'value', function(searching_user_uid){
+		              		setup_game(searching_user_uid.val())
+			              	myRootRef.child("users").update({"searching" : null});
+			              	window.location.href = "fight_page.html";
+		              	});
+		              }
+		            });
+		          } else {
+		            // user is logged out
+		            window.location.href = "index.html";
+		          }
+		        });
+
+		        function setup_game(opp_uid) {
+		        	console.log(opp_uid);
+		        	var dynamicRef = myRootRef.child("tagtech_dynamic");
+		        	dynamicRef.child(myUid).child("opponent").set(opp_uid);
+		        	dynamicRef.child(opp_uid).child("opponent").set(myUid);
+
+		        	var staticRef = myRootRef.child("tagtech_static");
+		        	staticRef.child("cards").once( 'value', function(all_cards){
+		        		var deck = new Array();
+		        		for(var i = 0; i < 36; ++i) {
+		        			var pick = Math.floor(Math.random() * 12);
+		        			deck.push(all_cards[pick]);
+		        		}
+		        		dynamicRef.child(myUid).child("deck").set(deck);
+
+		        		var deck2 = new Array();
+		        		for(var i = 0; i < 36; ++i) {
+		        			var pick = Math.floor(Math.random() * 12);
+		        			deck2.push(all_cards[pick]);
+		        		}
+		        		dynamicRef.child(opp_uid).child("deck").set(deck2);
+		        	});
+		        
+		        }
+
+		        var userRef = myRootRef.child('users');
+		        userRef.on('child_removed', function(snapshot) {
+		        	window.location.href = "fight_page.html";
+		        });
+        	});
+        })(jQuery);
+    </script>
+  </body>
+</html>
