@@ -38,3 +38,50 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.container {
+  position: fixed;
+  top: 0;
+  width:100%;
+  height: 100%;
+  
+  background: #FFF url("../img/background1.jpg") no-repeat fixed center;
+}
+
+.surrender {
+  position: relative;
+  margin: auto;
+  margin-top: 1em;
+  width: 30%;
+}
+#surrender {
+  background-color: rgba(0,0,50,0.7);
+}
+
+div.health {
+  position: relative;
+  width: 90%;
+  margin: auto;
+  margin-top: 1em;
+  padding: 1em;
+  background-color: rgba(0,0,0,0.4);
+
+  overflow: hidden;
+}
+
+.progressbar {
+  width: 48%;
+}
+
+.opponent {
+  float: left;
+}
+.player {
+  float: right;
+}
+
+.card_arena {
+  background: #fff url('img/handbackground.png') no-repeat fixed center;
+  margin: auto;
+  text-align: center;
+}

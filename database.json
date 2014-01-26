@@ -7,25 +7,25 @@
 		"card_types" : 12,
 		"players" : {
 			"warrior" : {
-				"init_hp" : 100,
+				"hp" : 100,
 				"attack" : ["melee", 5],
 				"defense" : ["melee", 5],
 				"health" : 0
 			},
 			"mage" : {
-				"init_hp" : 75,
+				"hp" : 75,
 				"attack" : ["spell", 10],
 				"defense" : ["dodge", 5],
 				"health" : 0
 			},
 			"ranger" : {
-				"init_hp" : 85,
+				"hp" : 85,
 				"attack" : ["projectile", 7],
 				"defense" : ["dodge", 5],
 				"health" : 0
 			},
 			"cleric" : {
-				"init_hp" : 120,
+				"hp" : 120,
 				"attack" : ["spell", 2],
 				"defense" : ["dodge", 0],
 				"health" : 5
@@ -94,8 +94,7 @@
 		]
 	},
 
-	"tagtech_dynamic" : {
-	},
+	"tagtech_dynamic" : {},
 
 	"users" : {
 		"online" : [],

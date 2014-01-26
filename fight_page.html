@@ -5,33 +5,25 @@
 	<title>TagTech</title>
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /> -->
 
-	<style type="text/css">
-		div.container {
-			margin-top: 10em;
-			margin: auto;
-			width: 80%;
-		}
-		div.play_area {
-			margin: 2em;
-			width: 640px;
-			height: 307px;
-			background: #FFF url(img/ku-xlarge.gif) no-repeat 50% 50%;
-		}
-		div.opponent {
-			float: right;
-		}
-		div.own {
-			float: left;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
 </head>
 <body>
-	<div class="container">
-		<div class="play_area"></div>
 
-		<div class="card_arena">
-			<div class="opponent"></div>
-			<div class="own"></div>
+	<div class="container">
+		<div class="surrender"><button id="surrender" class="btn btn-lg btn-primary btn-block">Surrender</button></div>
+		<div class="health">
+			<div class="opponent progressbar"></div>
+			<div class="player progressbar"></div>
+		</div>
+		<div class="play-area">
+			<div class="player_one"></div>
+			<div class="player_two"></div>
+		</div>
+		<div class="card-arena">
 		</div>
 	</div>
 	
@@ -39,130 +31,65 @@
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
 	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
 	<script type="text/javascript">
-		// instatiate the FirebaseSimpleLogin and monitor the user's auth state
-		var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
-		var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
-			if (error) {
-				// an error occurred while attempting login
-				alert(error);
-			} else if (user) {
-				// user authenticated with Firebase
-			} else {
-    			// user is logged out
-                window.location.href = "index.html";
-  			}
-  		});
-	</script>
-
-
-
-
-
-
-	<script type="text/javascript">
-		(function( $ ) {
-			$(document).ready( function() {
-				var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
-
-				var layer = new collie.Layer({
-					width: 470,
-					height: 500
-				});
-
-				collie.ImageManager.add({
-					card: "img/swordcard.png"
-				});
-
-				var card1 = new collie.DisplayObject({
-					x: 0,
-					y: 0,
-					width: 150,
-					height: 200,
-					backgroundImage: "card"
-				}).addTo(layer);
-
-				var card2 = new collie.DisplayObject({
-					x: 160,
-					y: 0,
-					width: 150,
-					height: 200,
-					backgroundImage: "card"
-				}).addTo(layer);
-
-				var card3 = new collie.DisplayObject({
-					x: 320,
-					y: 0,
-					width: 150,
-					height: 200,
-					backgroundImage: "card"
-				}).addTo(layer);
-
-				var currentY1 = card1.get("y");
-
-				var currentY2 = card2.get("y");
-
-				var currentY3 = card3.get("y");
-				
-				card1.attach({
-					click: function (e) {
-						myRootRef.child("tagtech_dynamic").child("players").child("one").child("first").once( 'value', function(snap){
-							var name_hp = snap.val();
-							myRootRef.child("tagtech_dynamic").child("players").child("one").child("first").update([name_hp[0], name_hp[1]-2])
-						});
-						collie.Timer.queue().
-						transition(card1, 400, {
-							to: currentY1 - 100,
-							effect: collie.Effect.easeOut,
-							set: "y"
-						}).
-						transition(card1, 400, {
-							to: currentY1,
-							effect: collie.Effect.easeIn,
-							set: "y"
-						});
-					}
-				});
-
-				card2.attach({
-					click: function (e) {
-						collie.Timer.queue().
-						transition(card2, 400, {
-							to: currentY2 - 100,
-							effect: collie.Effect.easeOut,
-							set: "y"
-						}).
-						transition(card2, 400, {
-							to: currentY2,
-							effect: collie.Effect.easeIn,
-							set: "y"
-						});
-					}
-				});
-
-				card3.attach({
-					click: function (e) {
-						collie.Timer.queue().
-						transition(card3, 400, {
-							to: currentY3 - 100,
-							effect: collie.Effect.easeOut,
-							set: "y"
-						}).
-						transition(card3, 400, {
-							to: currentY3,
-							effect: collie.Effect.easeIn,
-							set: "y"
-						});
-					}
-				});
-
-				collie.Renderer.addLayer(layer);
-				collie.Renderer.load(document.getElementsByClassName("own")[0]);
-				collie.Renderer.start();
+	(function( $ ){
+		$(function() {
+			$( ".progressbar" ).progressbar({
+				value: 100
 			});
-		}( jQuery ));
+		});
 
+		$(document).ready(function() {
+			var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+			var myUid;
+
+			var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+		        if (error) {
+		            // an error occurred while attempting login
+		            alert(error);
+		          } else if (user) {
+		          	myUid = user.uid
+		            // user authenticated with Firebase
+		            myRootRef.child("users").child("searching").once( 'value', function(online_users){
+		              var uids = online_users.val()
+		              if(uids == null) {
+		                myRootRef.child("users").update({"searching" : myUid});
+		              } else {
+		              	myRootRef.child("users").child("searching").once( 'value', function(searching_user_uid){
+		              		setup_game(searching_user_uid.val())
+			              	myRootRef.child("users").update({"searching" : null});
+			              	$("body").fadeOut(500, redirectPage);
+		              	});
+		              }
+		            });
+		          } else {
+		            // user is logged out
+		            window.location.href = "index.html";
+		        }
+		    });
+			
+			var p_deck_pos = 0;
+			var o_deck_pos = 0;
+
+			var playerRef = myRootRef.child("tagtech_dynamic").child(myUid)
+			playerRef.child("opponent").once('value', function(opponent_uid) {
+				var opponentRef = myRootRef.child("tagtech_dynamic").child(opponent_uid.val());
+
+				playerRef.child('deck').once('value', function( cards ) {
+					var deck = cards.val();
+					var hand = new Array;
+					for(var i = p_deck_pos; i < p_deck_pos+5; ++i) {
+						hand.push(deck[i])
+					}
+					playerRef.child('hand').set(hand);
+				});
+
+			});
+
+		}));
+	})(jQuery);
 	</script>
 </body>
 </html>
