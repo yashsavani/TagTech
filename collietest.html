@@ -49,18 +49,12 @@ collie.util.addEventListener(window, "load", function () {
             			scaleY : cardScale,
             			scale : cardScale
             		});
-            		objectCount--;
             	}else {
             		oEvent.displayObject.set({
                     	scaleX : oEvent.displayObject.get("scale") * 1.2,
                     	scaleY : oEvent.displayObject.get("scale") * 1.2,
                     	scale : oEvent.displayObject.get("scale") * 1.2
                 	});
-                	print(objectCount);
-                	objectCount++;
-                	if(objectCount == 4) {
-                		parent.change();
-                	}
             	}
                 oSelectedDisplayObject = oEvent.displayObject;
                 htStartPosition = {

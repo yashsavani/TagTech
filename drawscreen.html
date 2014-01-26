@@ -11,6 +11,15 @@
 
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script>
+    $(document).bind( "mobileinit", function(){
+        //alert("mobileinit fired");  
+        $.support.cors = true;
+        $.mobile.allowCrossDomainPages = true;       
+    });        
+</script>   
+
 <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
 
 <script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
@@ -38,7 +47,7 @@ collie.util.addEventListener(window, "load", function () {
     var oSelectedDisplayObject = null;
     var htStartPosition = {};
     var htSelectedDisplayObjectPosition = {};
-    var objectCount;
+    var objectCount = 0;
     var selectedObjects = new Array();
 
     handLayer.attach({
@@ -58,8 +67,9 @@ collie.util.addEventListener(window, "load", function () {
                     	scale : oEvent.displayObject.get("scale") * 1.2
                 	});
                 	objectCount++;
+                	console.log(objectCount);
                 	if(objectCount == 4) {
-                		parent.change();
+                		$.mobile.changePage("ActionBarTest.html");
                 	}
             	}
                 oSelectedDisplayObject = oEvent.displayObject;
@@ -94,15 +104,23 @@ collie.util.addEventListener(window, "load", function () {
         }*/
     });
 	
+	// collie.ImageManager.add({
+	// 	handLayerbackground: testArray["handLayerbackground"],
+	// 	mage: testArray["mage"],
+	// 	warrior: testArray["warrior"],
+	// 	warriorAttack: testArray["warriorAttack"],
+	// 	swordCard: testArray["swordCard"],
+	// 	cardGlow: testArray["cardGlow"],
+	// 	cardBack: testArray["cardBack"],
+	// 	frame: testArray["frame"]
+	// });
+
 	collie.ImageManager.add({
-		handLayerbackground: testArray["handLayerbackground"],
-		mage: testArray["mage"],
-		warrior: testArray["warrior"],
-		warriorAttack: testArray["warriorAttack"],
-		swordCard: testArray["swordCard"],
-		cardGlow: testArray["cardGlow"],
-		cardBack: testArray["cardBack"],
-		frame: testArray["frame"]
+		handLayerbackground: "img/handbackground.png",
+		mage: "img/mage.png",
+		warrior: "img/warrior.png",
+		swordCard: "img/MedSwordCard.png",
+		cardBack: "img/cardBack.png",
 	});
 
 	wScale = windowWidth / 800;
