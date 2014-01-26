@@ -9,65 +9,58 @@
 
 <script src="js/imagesource.js"></script>
 
-
-<<<<<<< HEAD
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-=======
->>>>>>> 6cb7a6fb0b44f10fff323d61b2fa2d7efd424cab
+<script> 
+     $.support.cors = true;
+     $.mobile.allowCrossDomainPages = true;       
+</script>   
+
 <script src='https://cdn.firebase.com/v0/firebase.js'></script>
 
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
 <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
 <script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
 <script type="text/javascript">
 
-$(document).ready(function() {
-			var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
-			var myUid;
+var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+var myUid;
 
-<<<<<<< HEAD
-			var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
-		        if (error) {
-		            // an error occurred while attempting login
-		            alert(error);
-		          } else if (user) {
-		          	myUid = user.uid
-		          	console.log("Your uid is :"+myUid);
-		          } else {
-		            // user is logged out
-		            //window.location.href = "index.html";
-					}
-		    });
-		    
-			
-			auth.login('anonymous', {
-				rememberMe: false
-			});
-
-var p_deck_pos = 0;
-=======
 var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
     if (error) {
         alert(error);
       } else if (user) {
-      	myUid = user.uid;
-      	var p_deck_pos = 0;
->>>>>>> 6cb7a6fb0b44f10fff323d61b2fa2d7efd424cab
+      	myUid = user.uid
+        myRootRef.child("users").child("searching").once( 'value', function(online_users){
+          var uids = online_users.val()
+          if(uids == null) {
+            myRootRef.child("users").update({"searching" : myUid});
+          } else {
+          	myRootRef.child("users").child("searching").once( 'value', function(searching_user_uid){
+          		setup_game(searching_user_uid.val())
+              	myRootRef.child("users").update({"searching" : null});
+              	$("body").fadeOut(500, redirectPage);
+          	});
+          }
+        });
+      } else {
+        window.location.href = "index.html";
+    }
+});
+
+var p_deck_pos = 0;
 var o_deck_pos = 0;
 
 var playerRef = myRootRef.child("tagtech_dynamic").child(myUid)
-
 playerRef.child("opponent").once('value', function(opponent_uid) {
 	var opponentRef = myRootRef.child("tagtech_dynamic").child(opponent_uid.val());
-	console.log(opponent_uid.val());
 
 	playerRef.child('deck').once('value', function( cards ) {
 		var deck = cards.val();
-		var hand = new Array();
+		var hand = new Array;
 		for(var i = p_deck_pos; i < p_deck_pos+5; ++i) {
 			hand.push(deck[i])
 		}
@@ -76,17 +69,11 @@ playerRef.child("opponent").once('value', function(opponent_uid) {
 
 });
 
-var hand = new Array();
-playerRef.child("hand").once('value', function(cards) {
-hand = cards.val();
-});
+var hand = new Array;
+hand = playerRef.child('hand');
+var deck = playerRef.cards.val();
 
-var deck = new Array();
-playerRef.child("deck").once('value', function(cards) {
-deck = cards.val();
-});
-
-collie.util.addEventListener(window, "load", function() {
+collie.util.addEventListener(window, "load", function () {
 	var windowWidth = 800;
 	var windowHeight = 450;
 
@@ -152,7 +139,7 @@ collie.util.addEventListener(window, "load", function() {
                 handLayer.removeChild(oEvent.displayObject);
                 handLayer.addChild(oEvent.displayObject);
             }
-        }
+        },
         /*mousemove : function (oEvent) {
             if (oSelectedDisplayObject !== null) {
                 var x = htStartPosition.x - oEvent.x;
@@ -251,18 +238,34 @@ collie.util.addEventListener(window, "load", function() {
 	//collie.Renderer.addLayer(frameLayer);
 	collie.Renderer.load(document.getElementById("container"));
 	collie.Renderer.start("30fps");
-	});
 });
-
-
-<<<<<<< HEAD
-=======
-   } else {window.location.href = "index.html";}
- });
-
 
 </script>
 
->>>>>>> 6cb7a6fb0b44f10fff323d61b2fa2d7efd424cab
+<script>
+
+$(document).ready(function() {
+			var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+			var myUid;
+
+			var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+		        if (error) {
+		            // an error occurred while attempting login
+		            alert(error);
+		          } else if (user) {
+		          	myUid = user.uid
+		          	alert("Your uid is :"+myUid);
+		          } else {
+		            // user is logged out
+		            window.location.href = "index.html";
+		        }
+		    });
+			
+			auth.login('anonymous', {
+				rememberMe: false
+			});
+		});
+</script>
+
 </body>
 </html>
