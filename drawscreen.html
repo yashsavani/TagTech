@@ -12,18 +12,66 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-<script>
-    $(document).bind( "mobileinit", function(){
-        //alert("mobileinit fired");  
-        $.support.cors = true;
-        $.mobile.allowCrossDomainPages = true;       
-    });        
+<script> 
+     $.support.cors = true;
+     $.mobile.allowCrossDomainPages = true;       
 </script>   
 
-<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+<script src='https://cdn.firebase.com/v0/firebase.js'></script>
 
+<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.1/firebase-simple-login.js'></script>
 <script type="text/javascript" src="http://jindo.dev.naver.com/collie/deploy/collie.min.js"></script>
 <script type="text/javascript">
+
+var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
+var myUid;
+
+var auth = new FirebaseSimpleLogin(myRootRef, function(error, user) {
+    if (error) {
+        alert(error);
+      } else if (user) {
+      	myUid = user.uid
+        myRootRef.child("users").child("searching").once( 'value', function(online_users){
+          var uids = online_users.val()
+          if(uids == null) {
+            myRootRef.child("users").update({"searching" : myUid});
+          } else {
+          	myRootRef.child("users").child("searching").once( 'value', function(searching_user_uid){
+          		setup_game(searching_user_uid.val())
+              	myRootRef.child("users").update({"searching" : null});
+              	$("body").fadeOut(500, redirectPage);
+          	});
+          }
+        });
+      } else {
+        window.location.href = "index.html";
+    }
+});
+
+var p_deck_pos = 0;
+var o_deck_pos = 0;
+
+var playerRef = myRootRef.child("tagtech_dynamic").child(myUid)
+playerRef.child("opponent").once('value', function(opponent_uid) {
+	var opponentRef = myRootRef.child("tagtech_dynamic").child(opponent_uid.val());
+
+	playerRef.child('deck').once('value', function( cards ) {
+		var deck = cards.val();
+		var hand = new Array;
+		for(var i = p_deck_pos; i < p_deck_pos+5; ++i) {
+			hand.push(deck[i])
+		}
+		playerRef.child('hand').set(hand);
+	});
+
+});
+
+var hand = new Array;
+hand = playerRef.child('hand');
+var deck = playerRef.cards.val();
 
 collie.util.addEventListener(window, "load", function () {
 	var windowWidth = 800;
@@ -117,9 +165,15 @@ collie.util.addEventListener(window, "load", function () {
 
 	collie.ImageManager.add({
 		handLayerbackground: "img/handbackground.png",
-		mage: "img/mage.png",
-		warrior: "img/warrior.png",
-		swordCard: "img/MedSwordCard.png",
+		projectile: "img/projectile.png",
+		strongprojectile: "img/strong projectile.png",
+		weakprojectile: "img/weak projectile.png",
+		sword: "img/sword.png",
+		weaksword: "img/weak sword.png", 
+		strongsword: "img/strong sword.png",
+		spell: "img/spell.png", 
+		weakspell: "img/weak spell.png",
+		strongspell: "img/strong spell.png",
 		cardBack: "img/cardBack.png",
 	});
 
@@ -140,19 +194,8 @@ collie.util.addEventListener(window, "load", function () {
 	var cardWidth = 150;
 	var cardHeight = 200;
 	var cardScale = 0.8 * wScale;
-	var numCards = 8;
-	
-	var testArray = new Array();
-	
-	for(var i=0; i < 7; i++) {
-		testArray[i] = "swordCard";
-	}
-	
-	
-	var hand = new Array();
-	var numHighlight = 4;
-	var currentHighlight = 0;
-	
+	var numCards = 7;
+		
 	for(var i=0; i < numCards; i++) {
 		var xPos, yPos;
 		if(i < 4) {
@@ -162,19 +205,23 @@ collie.util.addEventListener(window, "load", function () {
 			xPos = (windowWidth/5)*(i-3) - cardWidth/2;
 			yPos = (windowHeight)/2.2 + (cardWidth)/8;
 		}
-		hand[i] = new collie.DisplayObject({
+		var imageName = hand[i].name;
+		imageName = imageName.replace(/\s+/g, '');
+		var hand_card = new collie.DisplayObject({
 			x: xPos,
 			y: yPos,
 			width: cardWidth,
 			height: cardHeight,
 			useEvent : true,
-			backgroundImage: testArray[i], 
+			backgroundImage: imageName,
 			scaleX : cardScale,
 			scaleY : cardScale, 
 			scale: cardScale
 		}).addTo(handLayer);
-	
-    var deck = new collie.DisplayObject({
+	}
+
+	for(var i; i < deck.length; i++) {
+		var deck_card = new collie.DisplayObject({
 			x: (windowWidth/5) * 4 -cardWidth/2,
 			y: (windowHeight)/2.2 + (cardWidth)/8,
 			width: cardWidth,
