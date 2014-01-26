@@ -17,22 +17,17 @@
 collie.util.addEventListener(window, "load", function () {
 	var windowWidth = 800;
 	var windowHeight = 450;
-	/*if($(window).height() < $(window).width() * 45/80) {
-		windowHeight = $(window).height();
-		windowWidth = windowHeight * 80/45;
-	} else {
-		windowWidth = $(window).width();
-		windowHeight = windowWidth * 45/80;
-	}*/
 
     var layer = new collie.Layer({
-        width: 1920,
-        height: 1080
+        width: windowWidth,
+        height: windowHeight
     });
+
 	var handLayer = new collie.Layer({
         width: windowWidth,
         height: windowHeight
     });
+
 	/*var frameLayer = new collie.Layer({
         width: windowWidth,
         height: windowHeight
@@ -45,10 +40,19 @@ collie.util.addEventListener(window, "load", function () {
     handLayer.attach({
         mousedown : function (oEvent) {
             if (oEvent.displayObject) {
-                oEvent.displayObject.set({
-                    scaleX : oEvent.displayObject.get("scale") * 1.2,
-                    scaleY : oEvent.displayObject.get("scale") * 1.2
-                });
+            	if(oEvent.displayObject.get("scale") != cardScale) {
+            		oEvent.displayObject.set({
+            			scaleX : cardScale,
+            			scaleY : cardScale,
+            			scale : cardScale
+            		});
+            	}else {
+            		oEvent.displayObject.set({
+                    	scaleX : oEvent.displayObject.get("scale") * 1.2,
+                    	scaleY : oEvent.displayObject.get("scale") * 1.2,
+                    	scale : oEvent.displayObject.get("scale") * 1.2
+                	});
+            	}
                 oSelectedDisplayObject = oEvent.displayObject;
                 htStartPosition = {
                     x : oEvent.x,
@@ -62,19 +66,11 @@ collie.util.addEventListener(window, "load", function () {
         },
         mouseup : function (oEvent) {
             if (oSelectedDisplayObject !== null) {
-                oSelectedDisplayObject.set({
-                    scaleX : oSelectedDisplayObject.get("scale"),
-                    scaleY : oSelectedDisplayObject.get("scale")
-                });
                 oSelectedDisplayObject = null;
                 htSelectedDisplayObjectPosition = htStartPosition = {};
                 
                 handLayer.removeChild(oEvent.displayObject);
                 handLayer.addChild(oEvent.displayObject);
-            }
-			if (!oTimerSelect.isPlaying()) {
-                oTimer.stop();
-                oTimerSelect.start();
             }
         },
         /*mousemove : function (oEvent) {
@@ -116,11 +112,12 @@ collie.util.addEventListener(window, "load", function () {
 	
 	var handLayerbackground = new collie.DisplayObject({
 		x: "center",
+		y: "center",
 		width: 1920,
 		height: 1080,
 		backgroundImage: "handLayerbackground",
 		scaleX:  80/192,
-		scaleY:  45/108,
+		scaleY:  45/108
 		//scale: 0.416 * wScale
 	}).addTo(layer);
 	
@@ -144,10 +141,10 @@ collie.util.addEventListener(window, "load", function () {
 		var xPos, yPos;
 		if(i < 4) {
 			xPos = (windowWidth/5)*(i+1) - cardWidth/2;
-			yPos = (windowHeight)/2 - (cardWidth)/6 - cardWidth;
+			yPos = (windowHeight)/2.2 - (cardWidth)/4 - cardWidth;
 		} else {
 			xPos = (windowWidth/5)*(i-3) - cardWidth/2;
-			yPos = (windowHeight)/2 + (cardWidth)/6;
+			yPos = (windowHeight)/2.2 + (cardWidth)/8;
 		}
 		hand[i] = new collie.DisplayObject({
 			x: xPos,
@@ -160,48 +157,10 @@ collie.util.addEventListener(window, "load", function () {
 			scaleY : cardScale, 
 			scale: cardScale
 		}).addTo(handLayer);
-		/*var oAvatarWalk = new collie.DisplayObject({
-        x : 0,
-        y : 0,
-        width : 70,
-        height : 150,
-        backgroundImage : "bird_walk"
-    }).addTo(oAvatar);*/
-     
-    var highlight = new collie.DisplayObject({
-        width : -10,
-        height : -10,
-        spriteLength : 0,
-        backgroundImage : "cardGlow",
-        visible : false
-    }).addTo(hand[i]);
-     
-    var oTimer = collie.Timer.cycle(highlight, "1fps", {
-        to : 0,
-        loop : 0,
-        onStart : function () {
-            highlight.set("visible", false);
-        }
-    });
-     
-    var oTimerSelect = collie.Timer.cycle(highlight, "1fps", {
-        from : 0,
-        to : 0,
-        loop : 0,
-        useAutoStart : false,
-        onStart : function () {
-			//alert('visible: %d', highlight.get('visible'));
-            highlight.set("visible", true);
-        },
-        onComplete : function () {
-            oTimer.start();
-        }
-    });
-	}
 	
     var deck = new collie.DisplayObject({
 			x: (windowWidth/5) * 4 -cardWidth/2,
-			y: (windowHeight)/2 + (cardWidth)/6,
+			y: (windowHeight)/2.2 + (cardWidth)/8,
 			width: cardWidth,
 			height: cardHeight,
 			backgroundImage: "cardBack", 
@@ -209,35 +168,7 @@ collie.util.addEventListener(window, "load", function () {
 			scaleY : cardScale, 
 			scale: cardScale
 		}).addTo(handLayer);
-		
-	/*var frame = new collie.DisplayObject({
-		x: 0,
-		y: 0,
-		width: windowWidth,
-		height: windowHeight,
-		backgroundImage: "frame",
-		//scaleX: wScale,
-		//scaleY: hScale,
-		scale: wScale
-	}).addTo(frameLayer);*/
-	
-	/*var currentY = swordCard.get("y");
-	swordCard.attach({
-		click: function (e) {
-			collie.Timer.queue().
-				transition(swordCard, 400, {
-					to: currentY - 100,
-					effect: collie.Effect.easeOut,
-					set: "y"
-				}).
-				transition(swordCard, 400, {
-					to: currentY,
-					effect: collie.Effect.easeIn,
-					set: "y"
-				});
-			
-		}
-	});*/
+	}
 
 	collie.Renderer.addLayer(layer);
 	collie.Renderer.addLayer(handLayer);
@@ -245,6 +176,7 @@ collie.util.addEventListener(window, "load", function () {
 	collie.Renderer.load(document.getElementById("container"));
 	collie.Renderer.start("30fps");
 });
+
 </script>
 </body>
 </html>
