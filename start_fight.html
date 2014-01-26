@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Start Fight</title>
+    <title>Tag Tech | prepare for war </title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -24,6 +24,22 @@
   </head>
 
   <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Tag Tech</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <button id="logout" style="margin-top: 0.3em;" type="submit" class="navbar-right btn btn-success">Logout</button>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
 
     <div class="container">
 
@@ -39,22 +55,22 @@
         <div class="col-lg-3">
           <h2>Warrior</h2>
           <p><img src="img/HackathonWarrior.png" alt="warrior" width="160" height="200"><p>
-           <button class="btn btn-primary warrior">Select Commander &raquo;</button>
+           <button class="btn btn-primary warrior">Select Warrior &raquo;</button>
        </div>
         <div class="col-lg-3">
           <h2>Mage</h2>
           <p><img src="img/HackathonMage.png" alt="mage" width="160" height="200"><p>
-           <button class="btn btn-primary mage">Select Commander &raquo;</button>
+           <button class="btn btn-primary mage">Select Mage &raquo;</button>
        </div>
         <div class="col-lg-3">
           <h2>Ranger</h2>
           <p><img src="img/HackathonRanger.png" alt="ranger" width="160" height="200"><p>
-           <button class="btn btn-primary ranger">Select Commander &raquo;</button>
+           <button class="btn btn-primary ranger">Select Ranger &raquo;</button>
         </div>
         <div class="col-lg-3">
           <h2>Cleric</h2>
           <p><img src="img/HackathonCleric.png" alt="cleric" width="200" height="200"><p>
-           <button class="btn btn-primary cleric">Select Commander &raquo;</button>
+           <button class="btn btn-primary cleric">Select Cleric &raquo;</button>
         </div>
       </div>
     </div> <!-- /container -->
@@ -84,7 +100,7 @@
 
           } else {
               // user is logged out
-            window.location.href = "index.html";
+              window.location.href = "index.html";
           }
 
         });
@@ -156,6 +172,17 @@
         function redirectPage() {
           window.location.href = "loading.html";
         }
+
+        $("#logout").on("click", function() {
+            myRootRef.child("users").child("online").once('value', function(onliners) {
+              var arr = onliners.val();
+              if($.inArray(uid, arr) != -1) {
+                arr.splice( $.inArray(uid, arr), 1 );
+              }
+              myRootRef.child("users").child("online").set(arr);
+            });
+          setTimeout(function() {auth.logout();}, 500);
+        })
 
       })
     })(jQuery);
