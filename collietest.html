@@ -38,7 +38,8 @@ collie.util.addEventListener(window, "load", function () {
     var oSelectedDisplayObject = null;
     var htStartPosition = {};
     var htSelectedDisplayObjectPosition = {};
-    
+    var selectedObjects = new Array();
+    var objectCount = 0;
     handLayer.attach({
         mousedown : function (oEvent) {
             if (oEvent.displayObject) {
@@ -48,12 +49,18 @@ collie.util.addEventListener(window, "load", function () {
             			scaleY : cardScale,
             			scale : cardScale
             		});
+            		objectCount--;
             	}else {
             		oEvent.displayObject.set({
                     	scaleX : oEvent.displayObject.get("scale") * 1.2,
                     	scaleY : oEvent.displayObject.get("scale") * 1.2,
                     	scale : oEvent.displayObject.get("scale") * 1.2
                 	});
+                	print(objectCount);
+                	objectCount++;
+                	if(objectCount == 4) {
+                		parent.change();
+                	}
             	}
                 oSelectedDisplayObject = oEvent.displayObject;
                 htStartPosition = {
@@ -74,29 +81,30 @@ collie.util.addEventListener(window, "load", function () {
                 handLayer.removeChild(oEvent.displayObject);
                 handLayer.addChild(oEvent.displayObject);
             }
-        },
-        /*mousemove : function (oEvent) {
-            if (oSelectedDisplayObject !== null) {
-                var x = htStartPosition.x - oEvent.x;
-                var y = htStartPosition.y - oEvent.y;
-                oSelectedDisplayObject.set({
-                    x : htSelectedDisplayObjectPosition.x - x,
-                    y : htSelectedDisplayObjectPosition.y - y
-                });
-            }
-        }*/
+        }
     });
 	
+	// collie.ImageManager.add({
+	// 	handLayerbackground: testArray["handLayerbackground"],
+	// 	mage: testArray["mage"],
+	// 	warrior: testArray["warrior"],
+	// 	warriorAttack: testArray["warriorAttack"],
+	// 	swordCard: testArray["swordCard"],
+	// 	cardGlow: testArray["cardGlow"],
+	// 	cardBack: testArray["cardBack"],
+	// 	frame: testArray["frame"]
+	// });
+
 	collie.ImageManager.add({
-		handLayerbackground: testArray["handLayerbackground"],
-		mage: testArray["mage"],
-		warrior: testArray["warrior"],
-		warriorAttack: testArray["warriorAttack"],
-		swordCard: testArray["swordCard"],
-		cardGlow: testArray["cardGlow"],
-		cardBack: testArray["cardBack"],
-		frame: testArray["frame"]
-	});
+		handLayerbackground: "img/handbackground.png",
+		mage: "img/mage.png",
+		warrior: "img/warrior.png",
+		warriorAttack: "img/warriorAttack.png",
+		swordCard: "img/MedSwordCard.png",
+		cardGlow: "img/cardGlow.png",
+		cardBack: "img/cardBack.png",
+		frame: "img/frame.png"
+	})
 
 	wScale = windowWidth / 800;
 	hScale = windowHeight / 450;

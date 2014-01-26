@@ -38,7 +38,9 @@ collie.util.addEventListener(window, "load", function () {
     var oSelectedDisplayObject = null;
     var htStartPosition = {};
     var htSelectedDisplayObjectPosition = {};
-    
+    var objectCount;
+    var selectedObjects = new Array();
+
     handLayer.attach({
         mousedown : function (oEvent) {
             if (oEvent.displayObject) {
@@ -48,12 +50,17 @@ collie.util.addEventListener(window, "load", function () {
             			scaleY : cardScale,
             			scale : cardScale
             		});
+            		objectCount--;
             	}else {
             		oEvent.displayObject.set({
                     	scaleX : oEvent.displayObject.get("scale") * 1.2,
                     	scaleY : oEvent.displayObject.get("scale") * 1.2,
                     	scale : oEvent.displayObject.get("scale") * 1.2
                 	});
+                	objectCount++;
+                	if(objectCount == 4) {
+                		parent.change();
+                	}
             	}
                 oSelectedDisplayObject = oEvent.displayObject;
                 htStartPosition = {
