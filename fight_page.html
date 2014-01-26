@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-
+	
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 			<div class="opponent progressbar"></div>
 			<div class="player progressbar"></div>
 		</div>
-		<div class="play-area">
+		<div id=play-area class="play-area">
 			<div class="player_one"></div>
 			<div class="player_two"></div>
 		</div>
@@ -40,7 +40,7 @@
 				value: 100
 			});
 		});
-
+	
 		$(document).ready(function() {
 			var myRootRef = new Firebase('https://tagtech.firebaseio.com/');
 			var myUid;
@@ -69,10 +69,21 @@
 		            window.location.href = "index.html";
 		        }
 		    });
-			
 			var p_deck_pos = 0;
 			var o_deck_pos = 0;
 
+			/*
+			function displayDamage(damage, player) {
+				var div = document.getElementById('play-area');
+				damage.style.color = 'red';
+				if(player == 1) {
+					damage.style.text-align = left;
+				} else if(player == 2){
+					damage.style.text-align = right;
+				}
+				div.appendChild(damage);
+			}*/
+			//displayDamage(10, 1); //test
 			var playerRef = myRootRef.child("tagtech_dynamic").child(myUid)
 			playerRef.child("opponent").once('value', function(opponent_uid) {
 				var opponentRef = myRootRef.child("tagtech_dynamic").child(opponent_uid.val());
@@ -83,12 +94,45 @@
 					for(var i = p_deck_pos; i < p_deck_pos+5; ++i) {
 						hand.push(deck[i])
 					}
-					playerRef.child('hand').set(hand);
+					playerRef.child('hand').push(hand);
 				});
 
 			});
-
-		}));
+			
+			var characters = new Array();
+			playerRef.once("value", function(player) {
+				characters[0] = player.val().comm_names[0];
+				characters[1] = player.val().comm_names[2];
+			});
+			OpponentRef.once("value", function(player) {
+				characters[2] = player.val().comm_names[1];
+				characters[3] = player.val().comm_names[3];
+			});
+			
+			var c1img = new Image();
+			var div = document.getElementById('play-area');
+			c1img.onload = function() {
+				c1img.style.width = '10%';
+				c1img.style.height = 'auto';
+				c1img.style.position = 'absolute';
+				c1img.style.left = '120px';
+				c1img.style.bottom = '150px';
+				div.appendChild(c1img);
+			};
+			c1img.src = 'img/' + characters[0] + '.png';
+			
+			var c2img = new Image();
+			var div = document.getElementById('play-area');
+			c2img.onload = function() {
+				c2img.style.width = '10%';
+				c2img.style.height = 'auto';
+				c2img.style.position = 'absolute';
+				c2img.style.right = '150px';
+				c2img.style.bottom = '300px';
+				div.appendChild(c2img);
+			};
+			c2img.src = 'img/' + characters[1] + '.png';
+		});
 	})(jQuery);
 	</script>
 </body>
