@@ -11,6 +11,13 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+    #mobileuid {
+      width: 40%;
+      padding: 2em;
+    }
+
+    </style>
 
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -45,10 +52,13 @@
 
       <!-- Jumbotron -->
       <div class="jumbotron">
-        <h1>Pick your commanders</h1>
+        <h1 id="main">Pick your commanders</h1>
         <p class="lead">Select the two commanders you want to play.</p>
         <p id="selected">The commanders you have selected are: "<span class="first"></span>" and "<span class="second"></span>"</p>
-        
+        <form id="mobileuid" class="form-signin" role="form">
+          <input type="text" class="form-control mobileuid" placeholder="Mobile UID" required autofocus>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form>
       </div>
 
       <!-- Example row of columns -->
@@ -132,6 +142,7 @@
 
               var dynamicRef = myRootRef.child("tagtech_dynamic");
 
+              dynamicRef.child(uid).child("comm_names").set(sel_types);
               dynamicRef.child(uid).child(sel_types[0]).set(comm1);
               dynamicRef.child(uid).child(sel_types[1]).set(comm2);
               dynamicRef.child(uid).child("opponent").set("");
@@ -142,7 +153,7 @@
               $("body").fadeOut(300, redirectPage);
             });
           
-          }
+          } 
         });
         
         function clone(obj) {
@@ -184,6 +195,13 @@
             });
           setTimeout(function() {auth.logout();}, 500);
         })
+
+        $('#mobileuid').on('submit', function( e ) {
+          e.preventDefault();
+          var strmobileuid = $('#mobileuid>input.mobileuid').val();
+          myRootRef.child('tagtech_dynamic').child(uid).child("phone").set(strmobileuid);
+          myRootRef.child('tagtech_dynamic').child(strmobileuid).child("parent").set(uid);
+        });
 
       })
     })(jQuery);
